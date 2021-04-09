@@ -7,6 +7,7 @@ WORKDIR /app
 COPY platon-front/package-lock.json /app/package-lock.json
 COPY platon-front/package.json /app/package.json
 COPY platon-front/decorate-angular-cli.js /app/decorate-angular-cli.js
+RUN npm set unsafe-perm true
 RUN npm ci
 
 # Copy sources
