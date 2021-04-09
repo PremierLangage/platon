@@ -56,31 +56,31 @@ then
 
    touch ../platon-server/platon/config.py
    echo -e "
-   {
-      "lms": [
-         {
-               "guid": "elearning.u-pem.fr",
-               "name": "ELEARNING UPEM",
-               "url": "https://elearning.u-pem.fr/",
-               "outcome_url": "https://elearning.u-pem.fr/mod/lti/service.php",
-               "client_id": "moodle",
-               "client_secret":"secret"
-         }
-      ],
-      "admins": [
-         {
-               "username": "admin",
-               "password": "adminadmin"
-         }
-      ],
-      "sandboxes": [
-         {
-               "name": "Default",
-               "url": "http://localhost:7000/",
-               "enabled": true
-         }
-      ]
-   }
+{
+   \"lms\": [
+      {
+            \"guid\": \"elearning.u-pem.fr\",
+            \"name\": \"ELEARNING UPEM\",
+            \"url\": \"https://elearning.u-pem.fr/\",
+            \"outcome_url\": \"https://elearning.u-pem.fr/mod/lti/service.php\",
+            \"client_id\": \"moodle\",
+            \"client_secret\":\"secret\"
+      }
+   ],
+   \"admins\": [
+      {
+            \"username\": \"admin\",
+            \"password\": \"adminadmin\"
+      }
+   ],
+   \"sandboxes\": [
+      {
+            \"name\": \"Default\",
+            \"url\": \"http://localhost:7000/\",
+            \"enabled\": true
+      }
+   ]
+}
    ">> ../platon-server/platon/config.json
 
    echo -e "platon-server:$Green cloned !$Color_Off"
