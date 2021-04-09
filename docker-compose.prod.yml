@@ -1,0 +1,122 @@
+version: '3.7'
+
+services:
+  redis:
+    restart: always
+    image: redis:6
+    container_name: platon_redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    networks:
+      - platon-network
+
+  postgres:
+    restart: always
+    image: postgres:13
+    container_name: platon_postgres
+    ports:
+      - 5431:5432
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    networks:
+      - platon-network
+    env_file:
+      - .env
+
+  elasticsearch:
+    restart: always
+    image: elasticsearch:7.12.0
+    container_name: platon_elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+    networks:
+      - platon-network
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+
+  api:
+    restart: always
+    build:
+      context: ../
+      dockerfile: platon/api/Dockerfile
+    image: platon/api
+    container_name: platon_api
+    # TODO use daphne or uvicorn
+    command: sh -c "python3 manage.py waitdb &&
+                    python3 manage.py migrate &&
+                    python3 manage.py createdefaults &&
+                    python3 manage.py collectstatic --noinput &&
+                    python3 manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - media:/api/media
+      - static:/api/static
+    networks:
+      - platon-network
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+      - elasticsearch
+
+  server:
+    restart: always
+    build:
+      context: ../
+      dockerfile: platon/server/Dockerfile.prod
+    image: platon/server
+    container_name: platon_server
+    ports:
+      - 80:80
+      - 443:433
+    volumes:
+      - media:/api/media
+      - static:/api/static
+
+      - dhparam:/etc/ssl/certs
+      - web-root:/usr/share/nginx/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    networks:
+      - platon-network
+    links:
+      - api:api
+    depends_on:
+      - api
+
+    certbot:
+      image: certbot/certbot
+      container_name: platon_certbot
+      volumes:
+        - web-root:/usr/share/nginx/html
+        - certbot-etc:/etc/letsencrypt
+        - certbot-var:/var/lib/letsencrypt
+      depends_on:
+        - server
+      command: certonly --webroot --webroot-path=/usr/share/nginx/html --email user@example.com --agree-tos --no-eff-email --force-renewal -d example.com  -d www.example.com
+
+
+volumes:
+  media:
+  static:
+  redisdata:
+  postgresdata:
+  elasticsearchdata:
+
+  dhparam:
+  web-root:
+  certbot-etc:
+  certbot-var:
+
+
+networks:
+  platon-network:
+    driver: bridge

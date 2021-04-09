@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "ms-azuretools.vscode-docker",
+    "william-voyek.vscode-nginx",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+  ]
+}

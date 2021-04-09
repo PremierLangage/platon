@@ -1,0 +1,110 @@
+version: '3.7'
+
+services:
+  redis:
+    restart: on-failure
+    image: redis:6
+    container_name: platon_redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    networks:
+      - platon-network
+
+  postgres:
+    restart: on-failure
+    image: postgres:13
+    container_name: platon_postgres
+    ports:
+      - 5431:5432
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    networks:
+      - platon-network
+    env_file:
+      - .env
+
+  elasticsearch:
+    restart: on-failure
+    image: elasticsearch:7.12.0
+    container_name: platon_elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    networks:
+      - platon-network
+
+  api:
+    restart: on-failure
+    build:
+      context: ../
+      dockerfile: platon/api/Dockerfile
+    image: platon/api
+    container_name: platon_api
+    command: sh -c "python3 manage.py waitdb &&
+                    python3 manage.py migrate &&
+                    python3 manage.py createdefaults &&
+                    python3 manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - ../platon-server/:/api
+    networks:
+      - platon-network
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+      - elasticsearch
+
+  app:
+    restart: on-failure
+    build:
+      context: ../
+      dockerfile: platon/app/Dockerfile
+    image: platon/app
+    container_name: platon_app
+    command: npm start -- --host 0.0.0.0
+    ports:
+      - 4200:4200
+    volumes:
+      - ../platon-front/:/app
+      # - /app/node_modules
+    networks:
+      - platon-network
+
+  server:
+    restart: on-failure
+    build:
+      context: ../
+      dockerfile: platon/server/Dockerfile.dev
+    image: platon/server
+    container_name: platon_server
+    ports:
+      - 8080:80
+    networks:
+      - platon-network
+    links: # Link services to access http://app and  http://api inside the container
+      - api:api
+      - app:app
+    depends_on:
+      - api
+      - app
+
+
+volumes:
+  redisdata:
+  postgresdata:
+  elasticsearchdata:
+
+
+networks:
+  platon-network:
+    driver: bridge
