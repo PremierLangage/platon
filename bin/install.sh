@@ -49,6 +49,10 @@ then
 
    mkdir -p ../platon-server/media
    mkdir -p ../platon-server/static
+   mkdir -p ../platon-server/shared
+   mkdir -p ../platon-server/shared/static
+   mkdir -p ../platon-server/shared/templates
+
 
    touch ../platon-server/platon/config.py
    echo -e "
