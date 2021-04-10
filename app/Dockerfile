@@ -3,10 +3,12 @@ FROM node:12
 # Set work directory
 WORKDIR /app
 
-# Install dependencies
+# Copy dependencies
 COPY platon-front/package-lock.json /app/package-lock.json
 COPY platon-front/package.json /app/package.json
 COPY platon-front/decorate-angular-cli.js /app/decorate-angular-cli.js
+
+# Install dependencies
 RUN npm set unsafe-perm true
 RUN npm ci
 

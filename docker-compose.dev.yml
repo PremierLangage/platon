@@ -71,7 +71,7 @@ services:
       dockerfile: platon/app/Dockerfile
     image: platon/app
     container_name: platon_app
-    command: npm start -- --host 0.0.0.0
+    command: npm start -- --host 0.0.0.0 --disable-host-check
     ports:
       - 4200:4200
     volumes:
@@ -88,7 +88,13 @@ services:
     image: platon/server
     container_name: platon_server
     ports:
-      - 8080:80
+      - 80:80
+      - 443:443
+    volumes:
+      - ./server/nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./server/dhparam/dhparam.pem:/etc/nginx/dhparam.pem
+      - ./server/certs/platon.dev.crt:/etc/nginx/ssl/platon.dev.crt
+      - ./server/certs/platon.dev.key:/etc/nginx/ssl/platon.dev.key
     networks:
       - platon-network
     links: # Link services to access http://app and  http://api inside the container
@@ -97,13 +103,13 @@ services:
     depends_on:
       - api
       - app
-
+    extra_hosts:
+      - "platon.dev:127.0.0.1"
 
 volumes:
   redisdata:
   postgresdata:
   elasticsearchdata:
-
 
 networks:
   platon-network:

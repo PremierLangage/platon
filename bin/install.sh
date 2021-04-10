@@ -97,8 +97,6 @@ echo -e "Generating files...\n"
 if [[ ! -f .env ]]
 then
 echo -e "
-DOMAIN=example.com
-
 # POSTGRES SERVICE
 POSTGRES_USER=django
 POSTGRES_PASSWORD=django_password
@@ -127,9 +125,13 @@ SANDBOX_URL=http://localhost:7000/
 fi
 echo -e ".env:$Green OK !$Color_Off"
 
-if [[ ! -d server/dhparam ]]
+
+if ! grep -q "platon.dev" /etc/hosts;
 then
-   mkdir -p server/dhparam
-   sudo openssl dhparam -out server/dhparam/dhparam-2048.pem 2048
+echo "
+# ADDED BY PLATON
+127.0.0.1   platon.dev
+" >> /etc/hosts;
 fi
-echo -e "dhparam/dhparam-2048.pem:$Green OK !\n$Color_Off"
+
+echo -e "/etc/hosts:$Green OK !\n$Color_Off"
