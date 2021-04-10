@@ -78,13 +78,22 @@ services:
       - 80:80
       - 443:433
     volumes:
+      # DJANGO
       - media:/api/media
       - static:/api/static
 
-      - dhparam:/etc/ssl/certs
-      - web-root:/usr/share/nginx/html
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
+      # NGINX CONF
+      - ./server/nginx.prod.conf:/etc/nginx/nginx.conf
+
+      # SSL
+      - ./server/dhparam/dhparam.pem:/etc/nginx/dhparam.pem
+      - ./server/certs/platon.dev.crt:/etc/nginx/ssl/platon.dev.crt
+      - ./server/certs/platon.dev.key:/etc/nginx/ssl/platon.dev.key
+
+      # ANGULAR
+      - www:/var/wwww/html
+
+
     networks:
       - platon-network
     links:
@@ -105,16 +114,12 @@ services:
 
 
 volumes:
+  wwww:
   media:
   static:
   redisdata:
   postgresdata:
   elasticsearchdata:
-
-  dhparam:
-  web-root:
-  certbot-etc:
-  certbot-var:
 
 
 networks:

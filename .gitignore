@@ -1,6 +1,8 @@
 # Project
 .env
 /tmp
+server/certs
+server/dhparam
 
 
 # IDEs and editors

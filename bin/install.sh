@@ -11,22 +11,47 @@ Yellow=$'\e[0;33m' # Yellow
 Purple=$'\e[0;35m' # Purple
 Cyan=$'\e[0;36m'   # Cyan
 
-echo -e "\nChecking dependencies...\n"
+OS=$(uname -s)
+
+echo -e "$Purple\nChecking dependencies...\n$Color_Off"
+
 # Checking if Docker is installed
 if ! hash docker 2> /dev/null; then
     echo "docker:$Red ERROR - Docker must be installed (see: https://docs.docker.com/engine/installation/linux/docker-ce/debian/).$Color_Off" >&2
     exit 1
 fi
-echo -e "docker:$Green OK !\n$Color_Off"
+echo -e "docker:$Green OK !$Color_Off"
 
 
-echo -e "Cloning repositories...\n"
+if [ "$OS" = "Darwin" ]; then
+   if ! hash brew; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   fi
+   echo -e "brew:$Green OK !$Color_Off"
+
+   if ! hash openssl 2> /dev/null; then
+      brew install openssl
+   fi
+   echo -e "openssl:$Green OK !$Color_Off"
+else
+   if ! hash openssl 2> /dev/null; then
+      echo "ERROR:$Red brew should be installed. visit https://cloudwafer.com/blog/installing-openssl-on-ubuntu-16-04-18-04/$Color_Off"
+      exit 1
+   fi
+   
+   if ! hash update-ca-certificates 2> /dev/null; then
+      apt-get install ca-certificates
+   fi
+   echo -e "update-ca-certificates:$Green OK !$Color_Off"
+fi
+
+
+echo -e "$Purple\nChecking repositories...\n$Color_Off"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$DIR/.."
 
 # SANDBOX
-if [[ ! -d ../sandbox ]]
-then
+if [[ ! -d ../sandbox ]]; then
    git clone https://github.com/PremierLangage/sandbox ../sandbox
    echo -e "sandbox:$Green cloned !\n$Color_Off"
 else
@@ -34,8 +59,7 @@ else
 fi
 
 # PLATON-FRONT
-if [[ ! -d ../platon-front ]]
-then
+if [[ ! -d ../platon-front ]]; then
    git clone https://github.com/PremierLangage/platon-front ../platon-front
    echo -e "platon-front:$Green cloned !$Color_Off"
 else
@@ -43,8 +67,7 @@ else
 fi
 
 # PLATON_SERVER
-if [[ ! -d ../platon-server ]]
-then
+if [[ ! -d ../platon-server ]]; then
    git clone https://github.com/PremierLangage/platon-server ../platon-server
 
    mkdir -p ../platon-server/media
@@ -90,12 +113,10 @@ fi
 
 
 
+echo -e "$Purple\nGenerating files...\n$Color_Off"
 
-echo -e "Generating files...\n"
 
-
-if [[ ! -f .env ]]
-then
+if [[ ! -f .env ]]; then
 echo -e "
 # POSTGRES SERVICE
 POSTGRES_USER=django
@@ -126,12 +147,49 @@ fi
 echo -e ".env:$Green OK !$Color_Off"
 
 
-if ! grep -q "platon.dev" /etc/hosts;
-then
+if ! grep -q "platon.dev" /etc/hosts; then
 echo "
 # ADDED BY PLATON
 127.0.0.1   platon.dev
 " >> /etc/hosts;
 fi
+echo -e "/etc/hosts:$Green OK !$Color_Off"
 
-echo -e "/etc/hosts:$Green OK !\n$Color_Off"
+
+# https://support.kerioconnect.gfi.com/hc/en-us/articles/360015200119-Adding-Trusted-Root-Certificates-to-the-Server
+
+if [[ ! -f server/certs/platon.dev.crt ]]; then
+echo ""
+# Generate a ssl certificate of 10 years for platon.dev domain
+openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.dev.key -out server/certs/platon.dev.crt <<EOF
+fr
+Ile-de-france
+Champs-sur-marne
+IGM
+PLaTon
+platon.dev
+nobody@nobody.com
+EOF
+
+   if [ "$OS" = "Darwin" ]; then
+      security delete-certificate -c "platon.dev"
+      echo ""
+      security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain server/certs/platon.dev.crt
+      echo ""
+   else
+      rm -f /usr/local/share/ca-certificates/platon.dev.crt
+      update-ca-certificates --fresh
+
+      cp server/certs/platon.dev.crt /usr/local/share/ca-certificates/platon.dev.crt
+      update-ca-certificates
+   fi
+fi
+
+echo -e "server/certs/platon.dev.key:$Green OK !$Color_Off"
+echo -e "server/certs/platon.dev.crt:$Green OK !$Color_Off"
+
+if [[ ! -f server/dhparam/dhparam.pem ]]; then
+   mkdir -p server/dhparam
+   sudo openssl dhparam -out server/dhparam/dhparam.pem 2048
+fi
+echo -e "server/dhparam/dhparam-2048.pem:$Green OK !\n$Color_Off"
