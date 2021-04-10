@@ -40,7 +40,7 @@ else
    fi
    
    if ! hash update-ca-certificates 2> /dev/null; then
-      apt-get install ca-certificates
+      sudo apt-get install ca-certificates
    fi
    echo -e "update-ca-certificates:$Green OK !$Color_Off"
 fi
@@ -148,7 +148,7 @@ echo -e ".env:$Green OK !$Color_Off"
 
 
 if ! grep -q "platon.dev" /etc/hosts; then
-echo "
+sudo echo "
 # ADDED BY PLATON
 127.0.0.1   platon.dev
 " >> /etc/hosts;
@@ -164,7 +164,7 @@ mkdir -p server/dhparam
 if [[ ! -f server/certs/platon.dev.crt ]]; then
 echo ""
 # Generate a ssl certificate of 10 years for platon.dev domain
-openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.dev.key -out server/certs/platon.dev.crt <<EOF
+sudo openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.dev.key -out server/certs/platon.dev.crt <<EOF
 fr
 Ile-de-france
 Champs-sur-marne
@@ -180,11 +180,11 @@ EOF
       security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain server/certs/platon.dev.crt
       echo ""
    else
-      rm -f /usr/local/share/ca-certificates/platon.dev.crt
-      update-ca-certificates --fresh
+      sudo rm -f /usr/local/share/ca-certificates/platon.dev.crt
+      sudo update-ca-certificates --fresh
 
-      cp server/certs/platon.dev.crt /usr/local/share/ca-certificates/platon.dev.crt
-      update-ca-certificates
+      sudo cp server/certs/platon.dev.crt /usr/local/share/ca-certificates/platon.dev.crt
+      sudo update-ca-certificates
    fi
 fi
 
