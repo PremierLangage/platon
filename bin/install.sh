@@ -156,6 +156,9 @@ fi
 echo -e "/etc/hosts:$Green OK !$Color_Off"
 
 
+mkdir -p server/certs
+mkdir -p server/dhparam
+
 # https://support.kerioconnect.gfi.com/hc/en-us/articles/360015200119-Adding-Trusted-Root-Certificates-to-the-Server
 
 if [[ ! -f server/certs/platon.dev.crt ]]; then
@@ -189,7 +192,6 @@ echo -e "server/certs/platon.dev.key:$Green OK !$Color_Off"
 echo -e "server/certs/platon.dev.crt:$Green OK !$Color_Off"
 
 if [[ ! -f server/dhparam/dhparam.pem ]]; then
-   mkdir -p server/dhparam
    sudo openssl dhparam -out server/dhparam/dhparam.pem 2048
 fi
 echo -e "server/dhparam/dhparam-2048.pem:$Green OK !\n$Color_Off"
