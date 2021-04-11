@@ -47,12 +47,11 @@ services:
       dockerfile: platon/api/Dockerfile
     image: platon/api
     container_name: platon_api
-    # TODO use daphne or uvicorn
     command: sh -c "python3 manage.py waitdb &&
                     python3 manage.py migrate &&
                     python3 manage.py createdefaults &&
                     python3 manage.py collectstatic --noinput &&
-                    python3 manage.py runserver 0.0.0.0:8000"
+                    uvicorn platon.asgi:application --port 8000 --host 0.0.0.0 --workers 1"
     ports:
       - 8000:8000
     volumes:
@@ -66,6 +65,22 @@ services:
       - redis
       - postgres
       - elasticsearch
+
+  celery:
+    restart: always
+    image: platon/api
+    container_name: platon_celery
+    command: celery -A platon worker --beat --scheduler django -l info --uid=nobody --gid=nogroup
+    volumes:
+      - ../platon-server/:/api
+    networks:
+      - platon-network
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+      - postgres
 
   server:
     restart: always
@@ -85,15 +100,11 @@ services:
       # NGINX CONF
       - ./server/nginx.prod.conf:/etc/nginx/nginx.conf
 
-      # SSL
+      # SSL CONF
       - ./server/dhparam/dhparam.pem:/etc/nginx/dhparam.pem
-      - ./server/certs/platon.dev.crt:/etc/nginx/ssl/platon.dev.crt
-      - ./server/certs/platon.dev.key:/etc/nginx/ssl/platon.dev.key
-
-      # ANGULAR
-      - www:/var/wwww/html
-
-
+      # REPLACE THESE FILES WITH PRODUCTION SSL FILES
+      - ./server/certs/example.com.crt:/etc/nginx/ssl/example.com.crt
+      - ./server/certs/example.com.key:/etc/nginx/ssl/example.com.key
     networks:
       - platon-network
     links:
@@ -101,20 +112,8 @@ services:
     depends_on:
       - api
 
-    certbot:
-      image: certbot/certbot
-      container_name: platon_certbot
-      volumes:
-        - web-root:/usr/share/nginx/html
-        - certbot-etc:/etc/letsencrypt
-        - certbot-var:/var/lib/letsencrypt
-      depends_on:
-        - server
-      command: certonly --webroot --webroot-path=/usr/share/nginx/html --email user@example.com --agree-tos --no-eff-email --force-renewal -d example.com  -d www.example.com
-
 
 volumes:
-  wwww:
   media:
   static:
   redisdata:

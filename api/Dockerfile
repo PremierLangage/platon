@@ -20,3 +20,7 @@ ADD platon-server/apps /api/apps
 ADD platon-server/platon /api/platon
 ADD platon-server/shared /api/shared
 ADD platon-server/manage.py /api/manage.py
+
+# Setup celery log dir
+RUN mkdir -p /var/run/celery /var/log/celery
+RUN chown -R nobody:nogroup /var/run/celery /var/log/celery
