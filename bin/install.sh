@@ -38,7 +38,8 @@ else
       echo "ERROR:$Red brew should be installed. visit https://cloudwafer.com/blog/installing-openssl-on-ubuntu-16-04-18-04/$Color_Off"
       exit 1
    fi
-   
+   echo -e "openssl:$Green OK !$Color_Off"
+
    if ! hash update-ca-certificates 2> /dev/null; then
       sudo apt-get install ca-certificates
    fi
@@ -118,6 +119,10 @@ echo -e "$Purple\nGenerating files...\n$Color_Off"
 
 if [[ ! -f .env ]]; then
 echo -e "
+# INCREASE DOCKER COMPOSE TIMEOUT DELAY DO NOT REMOVE THIS VAR
+COMPOSE_HTTP_TIMEOUT=200
+
+
 # POSTGRES SERVICE
 POSTGRES_USER=django
 POSTGRES_PASSWORD=django_password
@@ -127,7 +132,7 @@ PG_DATA=/var/lib/postgresql/data
 
 # API SERVICE
 DEBUG=true
-ALLOWED_HOSTS=127.0.0.1,localhost
+ALLOWED_HOSTS=127.0.0.1,localhost,platon.dev
 
 DB_NAME=django_platon
 DB_USERNAME=django
@@ -148,10 +153,7 @@ echo -e ".env:$Green OK !$Color_Off"
 
 
 if ! grep -q "platon.dev" /etc/hosts; then
-sudo echo "
-# ADDED BY PLATON
-127.0.0.1   platon.dev
-" >> /etc/hosts;
+sudo -- sh -c "echo \"127.0.0.1  platon.dev\" >> /etc/hosts"
 fi
 echo -e "/etc/hosts:$Green OK !$Color_Off"
 
@@ -164,7 +166,7 @@ mkdir -p server/dhparam
 if [[ ! -f server/certs/platon.dev.crt ]]; then
 echo ""
 # Generate a ssl certificate of 10 years for platon.dev domain
-sudo openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.dev.key -out server/certs/platon.dev.crt <<EOF
+openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.dev.key -out server/certs/platon.dev.crt <<EOF
 fr
 Ile-de-france
 Champs-sur-marne
@@ -192,6 +194,6 @@ echo -e "server/certs/platon.dev.key:$Green OK !$Color_Off"
 echo -e "server/certs/platon.dev.crt:$Green OK !$Color_Off"
 
 if [[ ! -f server/dhparam/dhparam.pem ]]; then
-   sudo openssl dhparam -out server/dhparam/dhparam.pem 2048
+   openssl dhparam -out server/dhparam/dhparam.pem 2048
 fi
 echo -e "server/dhparam/dhparam-2048.pem:$Green OK !\n$Color_Off"
