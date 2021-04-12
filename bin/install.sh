@@ -130,22 +130,26 @@ POSTGRES_DB=django_platon
 PG_DATA=/var/lib/postgresql/data
 
 
-# API SERVICE
+# API SERVICE (platon-server)
 DEBUG=true
 ALLOWED_HOSTS=127.0.0.1,localhost,platon.dev
 
+# Database settings in settings.py of platon-server
 DB_NAME=django_platon
 DB_USERNAME=django
 DB_PASSWORD=django_password
 DB_HOST=172.17.0.1
 DB_PORT=5431
 
+# redis settings in settings.py of platon-server
 REDIS_HOST=172.17.0.1
 REDIS_PORT=6379
 
+# elasticsearch settings in settings.py of platon-server
 ELASTICSEARCH_HOST=172.17.0.1
 ELASTICSEARCH_PORT=9200
 
+# sandbox settings in settings.py of platon-server
 SANDBOX_URL=http://localhost:7000/
 " >> .env
 fi
@@ -196,4 +200,4 @@ echo -e "server/certs/platon.dev.crt:$Green OK !$Color_Off"
 if [[ ! -f server/dhparam/dhparam.pem ]]; then
    openssl dhparam -out server/dhparam/dhparam.pem 2048
 fi
-echo -e "server/dhparam/dhparam-2048.pem:$Green OK !\n$Color_Off"
+echo -e "server/dhparam/dhparam.pem:$Green OK !\n$Color_Off"
