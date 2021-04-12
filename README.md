@@ -206,7 +206,7 @@ In a development environment:
 - Angular will be served on the port `7000` using `npm start` command.
 - Nginx will listen on port `80` (http) and `443` (https) to forward the requests to Django or Angular depending on the requested url prefix.
 - Postgres, Redis and Elasticsearch will listen on their own standard port.
-- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `python3 manage.py runserver 7000`.
+- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `python3 manage.py runserver IP:7000`.
 
 HOT reloading is enabled in this mode since angular and django are started using a dedicated webserver so any time a file change in the projects, the code will be recompiled. This works thanks to [docker volumes](https://www.freecodecamp.org/news/how-to-enable-live-reload-on-docker-based-applications/) (the source codes will be mounted inside the containers).
 
