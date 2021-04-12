@@ -110,8 +110,6 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     ./bin/dev-up.sh
     ```
 
-    ![docker extension](./images/docker-extension.png)
-
     At this point, you will see an error in your browser like the following one:
 
     ![self signed warning](./images/self_signed_warning.png)
