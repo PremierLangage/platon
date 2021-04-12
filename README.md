@@ -50,12 +50,12 @@ In order to run PLaTon you'll need the following tools installed
 
 > You will be asked to install the extensions on the first time you will open the project, but if not you can also display the recommendations by opening the command palette of vscode (`CTRL + P` on Linux and `CMD + P` on Mac) then type the following text
 <p align="left">
-    <img src="./images/vscode-recommendations.png" alt="vscode recommentations" width="520px" />
+    <img src="./images/vscode-recommendations.png" alt="vscode recommentations" width="620px" />
 </p>
 
 > Also if you are using docker for mac, we recommend you to increase the memory size to 4GB in the resources section of the docker dashboard.
 <p align="left">
-    <img src="./images/docker-for-mac.png" alt="Docker for mac" width="520px" />
+    <img src="./images/docker-for-mac.png" alt="Docker for mac" width="620px" />
 </p>
 
 ### Installation
@@ -127,14 +127,14 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     At this point, you will see an error in your browser like the following one:
 
     <p align="left">
-        <img src="./images/ssl-warning.png" alt="SSL warnings" width="520px" />
+        <img src="./images/ssl-warning.png" alt="SSL warnings" width="620px" />
     </p>
 
     The message and the way you will fix it  might be different depending on the browser.
 
     - On **Firefox**, you should open the page `about:config` in a new tab and toggle off the `network.stricttransportsecurity.preloadlist` setting then refresh the page, you will now see an option to bypass the warning.
     <p align="left">
-        <img src="./images/ssl-bypass-firefox.png" alt="SSL bypass firefox" width="520px" />
+        <img src="./images/ssl-bypass-firefox.png" alt="SSL bypass firefox" width="620px" />
     </p>
 
     - On *Chrome*, click a blank section of the denial page.
@@ -143,7 +143,7 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
 
     - On **Safari** for mac, you should add `server/certs/platon.dev.crt` the the Keychain app, then approve the `platon.dev` certificate by double click on it.
     <p align="left">
-        <img src="./images/keychain.png" alt="Keychain app" width="520px" />
+        <img src="./images/keychain.png" alt="Keychain app" width="620px" />
     </p>
 
 ### Scripts
@@ -168,7 +168,7 @@ In addition to these 3 scripts, the project contains other scripts placed in the
 Instead of developing directly on your host machine, or using the **shell-*** scripts, we recommend you to run the containers inside vscode. The projects are configured to install some useful vscode extensions.
 
 <p align="left">
-<img src="./images/remote-containers-extension.png" alt="Remote containers extension" width="520px" />
+<img src="./images/remote-containers-extension.png" alt="Remote containers extension" width="620px" />
 </p>
 
 <https://code.visualstudio.com/docs/remote/attach-container>
@@ -194,43 +194,41 @@ To use all these services at the same, PLaTon use [Docker](https://www.docker.co
 
 ### Development stacks
 
-The following diagrams represents the stack of the platform in a development environment.
+The following diagram represents the stack of the platform in a development environment.
 
 <p align="left">
-<img src="./images/stacks-dev.png" alt="Development stacks" width="520px" />
+<img src="./images/architecture-development.png" alt="Development architecture" width="620px" />
 </p>
 
 In a development environment:
 
-- Django will be started using `python3 manage.py runserver` on port `8000`.
-- Angular will be started using  `npm start` on port `7000`.
-- Nginx will listen on port `80` (http) and `443` (https) to handle the requests and redirect to Django or Angular depending on the requested url.
-- Postgres, Redis and Elasticsearch will listen on a different port and connect to Django.
-- The sandbox will not be dockerized so you must install it on your system and start it using `python3 manage.py runserver 7000`.
-- Static files will be served by Django.
+- Django will served on the port `8000` using `python3 manage.py runserver` command (Django will also serve the static files and the media files).
+- Angular will be served on the port `7000` using `npm start` command.
+- Nginx will listen on port `80` (http) and `443` (https) to forward the requests to Django or Angular depending on the requested url prefix.
+- Postgres, Redis and Elasticsearch will listen on their own standard port.
+- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `python3 manage.py runserver 7000`.
 
-HOT reloading is enabled in this mode since Angular and Django are started using a dedicated webserver so any time a file change in the projects, the code will be recompiled. This works thanks to [docker volumes](https://www.freecodecamp.org/news/how-to-enable-live-reload-on-docker-based-applications/) (the source codes will be mounted inside the containers).
+HOT reloading is enabled in this mode since angular and django are started using a dedicated webserver so any time a file change in the projects, the code will be recompiled. This works thanks to [docker volumes](https://www.freecodecamp.org/news/how-to-enable-live-reload-on-docker-based-applications/) (the source codes will be mounted inside the containers).
 
 ### Production stacks
 
-The following diagrams represents the stack of the platform in a production environment.
+The following diagram represents the stack of the platform in a production environment.
 
 <p align="left">
-<img src="./images/stacks-prod.png" alt="Production stacks" width="520px" />
+<img src="./images/architecture-production.png" alt="Production architecture" width="620px" />
 </p>
 
 In a production environment:
 
-- Django will be served by [Uvnicorn](https://www.uvicorn.org).
-- Angular will be compiled into nginx web-server root.
-- Nginx will act as a reverse proxy like for the development environment.
-- Statics files will be served by Nginx instead of Django.
+- Django will be served on port `8000` using [Uvicorn](https://www.uvicorn.org).
+- Angular will be compiled a volume that is mounted inside the nginx container.
+- Nginx will act as a reverse proxy like for the development environment. It will redirect api and websocket requests to uvicorn and will serve django static files and angular pages.
 
 ### Cross-origin resource sharing (CORS)
 
 You might have experienced that using a lot of different ports is confusing while developping services locally: it often involves cross-origin resource sharing which need to be allowed. Cross-origin resource sharing let a domain access the data on an another one. When you need to access your data from a different domain, you need to allow this domain to query the data.
 
-CORS is allowed in the settings of the backend project.
+CORS is allowed in the settings of the django project.
 
 ### Environment variables
 
@@ -258,7 +256,7 @@ The following table list all the environment variables defined inside the `.env`
 | ELASTICSEARCH_PORT | api | Sets django's `ELASTICSEARCH_PORT` value setting  | 9200 |
 | SANDBOX_URL | api | Sets django's `SANDBOX_URL` value setting  | <http://localhost:7000/> |
 
-> You must defined the host part of the SANDBOX_URL to your IP address instead of localhost since the sandbox is not dockerized.
+> You must define the host part of the SANDBOX_URL to your IP address instead of localhost since the sandbox is not dockerized.
 
 ## Backend
 
