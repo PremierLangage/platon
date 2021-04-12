@@ -87,7 +87,7 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
 
     - [sandbox](https://github.com/PremierLangage/sandbox) -> server to execute code inside of a secured and isolated environment, written with [django](https://www.djangoproject.com).
 
-    This will give you the following director structure:
+    This will give you the following directory structure:
 
     ```text
     platon/
@@ -141,7 +141,7 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     Using your keyboard, type `thisisunsafe`. This will add the website to a safe list, where you should not be prompted again.
     Strange steps, but it surely works!
 
-    - On **Safari** for mac, you should open the Keychain app, then approve the `platon.dev` certificate.
+    - On **Safari** for mac, you should add `server/certs/platon.dev.crt` the the Keychain app, then approve the `platon.dev` certificate by double click on it.
     <p align="left">
         <img src="./images/keychain.png" alt="Keychain app" width="520px" />
     </p>
@@ -202,7 +202,7 @@ The following diagrams represents the stack of the platform in a development env
 
 In a development environment:
 
-- Django will be started using `python3 manage.py runserver` on port `8000`
+- Django will be started using `python3 manage.py runserver` on port `8000`.
 - Angular will be started using  `npm start` on port `7000`.
 - Nginx will listen on port `80` (http) and `443` (https) to handle the requests and redirect to Django or Angular depending on the requested url.
 - Postgres, Redis and Elasticsearch will listen on a different port and connect to Django.
@@ -219,7 +219,12 @@ The following diagrams represents the stack of the platform in a production envi
 <img src="./images/stacks-prod.png" alt="Production stacks" width="520px" />
 </p>
 
-- In a production environment, Django will be served by [Uvnicorn](https://www.uvicorn.org), Angular will be compiled into nginx web-server root
+In a production environment:
+
+- Django will be served by [Uvnicorn](https://www.uvicorn.org).
+- Angular will be compiled into nginx web-server root.
+- Nginx will act as a reverse proxy like for the development environment.
+- Statics files will be served by Nginx instead of Django.
 
 ### Cross-origin resource sharing (CORS)
 
