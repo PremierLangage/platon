@@ -49,12 +49,14 @@ In order to run PLaTon you'll need the following tools installed
 [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and the [Remote development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extensions on vscode. The first one will allow you to use docker inside the editor and the second to use docker as a full-featured development environment.
 
 > You will be asked to install the extensions on the first time you will open the project, but if not you can also display the recommendations by opening the command palette of vscode (`CTRL + P` on Linux and `CMD + P` on Mac) then type the following text
-
-![vscode recommendations](./images/vscode-recommendations.png)
+<p align="left">
+    <img src="./images/vscode-recommendations.png" alt="vscode recommentations" width="520px" />
+</p>
 
 > Also if you are using docker for mac, we recommend you to increase the memory size to 4GB in the resources section of the docker dashboard.
-
-![docker for mac](./images/docker-for-mac.png)
+<p align="left">
+    <img src="./images/docker-for-mac.png" alt="Docker for mac" width="520px" />
+</p>
 
 ### Installation
 
@@ -112,19 +114,25 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
 
     At this point, you will see an error in your browser like the following one:
 
-    ![self signed warning](./images/self_signed_warning.png)
+    <p align="left">
+        <img src="./images/ssl-warning.png" alt="SSL warnings" width="520px" />
+    </p>
 
     The message and the way you will fix it  might be different depending on the browser.
 
     - On **Firefox**, you should open the page `about:config` in a new tab and toggle off the `network.stricttransportsecurity.preloadlist` setting then refresh the page, you will now see an option to bypass the warning.
-    ![bypass ssl firefox](./images/bypass-ssl-firefox.png)
+    <p align="left">
+        <img src="./images/ssl-bypass-firefox.png" alt="SSL bypass firefox" width="520px" />
+    </p>
 
     - On *Chrome*, click a blank section of the denial page.
     Using your keyboard, type `thisisunsafe`. This will add the website to a safe list, where you should not be prompted again.
     Strange steps, but it surely works!
 
     - On **Safari** for mac, you should open the Keychain app, then approve the `platon.dev` certificate.
-    ![keychain](./images/keychain.png)
+    <p align="left">
+        <img src="./images/keychain.png" alt="Keychain app" width="520px" />
+    </p>
 
 ### Scripts
 
@@ -147,7 +155,9 @@ In addition to these 3 scripts, the project contains other scripts placed in the
 
 Instead of developing directly on your host machine, or using the **shell-*** scripts, we recommend you to run the containers inside vscode. The projects are configured to install some useful vscode extensions.
 
-![remote containers extension](./images/remote-containers-extension.png)
+<p align="left">
+<img src="./images/remote-containers-extension.png" alt="Remote containers extension" width="520px" />
+</p>
 
 <https://code.visualstudio.com/docs/remote/attach-container>
 
@@ -157,7 +167,72 @@ Also, it will recommend you to install some extensions based on the container yo
 
 ## Architecture
 
-TODO
+PLaTon is organized through different technical services:
+
+- [Django REST Framework](https://www.django-rest-framework.org) to write a REST API.
+- [Django Channels](https://channels.readthedocs.io/en/stable/) to create websocket endpoints.
+- [Angular](https://angular.io) to create the frontend application of the platform.
+- [PostgreSQL](https://www.postgresql.org) to store the data of the platform.
+- [Elasticsearch](https://django-elasticsearch-dsl.readthedocs.io/en/latest/quickstart.html) to add a full text search feature to the platform.
+- [Celery](https://docs.celeryproject.org/en/stable/) to create automated tasks.
+- [Redis](https://redis.io) to add a caching layer on top of Django Channels and Celery.
+- [Nginx](https://www.nginx.com) to serve all theses services on the same server  using a reverse proxy system.
+
+To use all these services at the same, PLaTon use [Docker](https://www.docker.com) to run each service inside a container and connect them using a docker-compose file.
+
+### Development stacks
+
+The following diagrams represents the stack of the platform in a development environment.
+
+<p align="left">
+<img src="./images/stacks-dev.png" alt="Development stacks" width="520px" />
+</p>
+
+In a development environment, django will be started using `python3 manage.py runserver` and angular with `npm start`. It enables HOT reloading so any time a file change in the projects, the code will be recompiled. This works thanks to docker volumes (the source codes will be mounted inside the containers).
+
+### Production stacks
+
+The following diagrams represents the stack of the platform in a production environment.
+
+<p align="left">
+<img src="./images/stacks-prod.png" alt="Production stacks" width="520px" />
+</p>
+
+The main difference between these two stacks it that the angular application is
+
+### Environment variables
+
+The following table list all the environment variables defined inside the [.env](.env) file of the repository. This file allow to config the services of the docker-compose.
+
+> This file is not versionned, it will be generated by the [install.sh](./bin/install.sh) script. So if a future version of the repository adds a new environment variable, you should add it by yourself by comparing the local content of the file and the one comming from github.
+
+| Name | Service | Description | Default |
+| --- | --- | --- | -- |
+| COMPOSE_HTTP_TIMEOUT | docker | Increase docker build timeout which is set to 20 by default | 200 |
+| POSTGRES_USER | postgres | Owner of the database created inside the postgres service. | django |
+| POSTGRES_PASSWORD | postgres | Password of the database created inside the postgres service. | django_password |
+| POSTGRES_DB | postgres |  Name of the database created inside the postgres service. | django_platon |
+| PG_DATA | postgres | Directory where to store the data inside the postgres service. | PG_DATA=/var/lib/postgresql/data |
+| DEBUG | api | Sets django's [DEBUG](https://docs.djangoproject.com/fr/3.1/ref/settings/#debug) value settings | true |
+| ALLOWED_HOSTS | api | Sets django's [ALLOWED_HOSTS](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) value setting | 127.0.0.1,localhost,platon.dev |
+| DB_NAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django_platon |
+| DB_USERNAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django |
+| DB_PASSWORD | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) password value setting | django_password |
+| DB_HOST | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) host value setting  | 172.17.0.1 |
+| DB_PORT | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) port value setting  | 5431 |
+| REDIS_HOST | api | Sets django's `REDIS_HOST` value setting | 172.17.0.1 |
+| REDIS_PORT | api | Sets django's `REDIS_PORT` value setting | 6379 |
+| ELASTICSEARCH_HOST | api | Sets django's `ELASTICSEARCH_HOST` value setting | 172.17.0.1 |
+| ELASTICSEARCH_PORT | api | Sets django's `ELASTICSEARCH_PORT` value setting  | 9200 |
+| SANDBOX_URL | api | Sets django's `SANDBOX_URL` value setting  | <http://localhost:7000/> |
+
+> You must defined the host part of the SANDBOX_URL to your IP address instead of localhost since the sandbox is not dockerized.
+
+### Cross-origin resource sharing (CORS)
+
+You might have experienced that using a lot of different ports is confusing while developping services locally: it often involves cross-origin resource sharing which need to be allowed. Cross-origin resource sharing let a domain access the data on an another one. When you need to access your data from a different domain, you need to allow this domain to query the data.
+
+CORS is allowed in the settings of the backend project.
 
 ## Backend
 
