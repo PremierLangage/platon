@@ -60,7 +60,7 @@ In order to run PLaTon you'll need the following tools installed
 
 ### Installation
 
-Since the platform depends on multiple services like a PostgreSQL database, Elasticsearch, Python, Node, Angular and others projects of the organization... the development process is fully dockerized. All the development (code, run, test, deploy) takes place inside docker containers so you don't have to install anything on your system except [`Docker`](https://www.docker.com) and [`Visual Studio Code`](https://code.visualstudio.com).
+Since the platform depends on multiple services like a PostgreSQL database, Elasticsearch, Python, Node, Angular and others projects of the organization... the development process is fully dockerized. All the coding, running, testing and deployment takes place inside docker containers so you don't have to install anything on your system except [`Docker`](https://www.docker.com) and [`Visual Studio Code`](https://code.visualstudio.com).
 
 You are free to develop on the OS of your choice, it's does not matter thanks to docker, but we recommend you to choose a Linux or an OSX system since the project is fully tested on these two platforms.
 
@@ -137,11 +137,11 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
         <img src="./images/ssl-bypass-firefox.png" alt="SSL bypass firefox" width="620px" />
     </p>
 
-    - On *Chrome*, click a blank section of the denial page.
+    - On **Chrome**, click a blank section of the denial page.
     Using your keyboard, type `thisisunsafe`. This will add the website to a safe list, where you should not be prompted again.
     Strange steps, but it surely works!
 
-    - On **Safari** for mac, you should add `server/certs/platon.dev.crt` the the Keychain app, then approve the `platon.dev` certificate by double click on it.
+    - On **Safari** for mac, you should add `server/certs/platon.dev.crt` the Keychain app, then approve the `platon.dev` certificate by double click on it.
     <p align="left">
         <img src="./images/keychain.png" alt="Keychain app" width="620px" />
     </p>
