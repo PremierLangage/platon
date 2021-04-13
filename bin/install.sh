@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd "$DIR/.."
+
 # COLORS
 # Reset
 Color_Off=$'\e[0m' # Text Reset
@@ -48,8 +51,6 @@ fi
 
 
 echo -e "$Purple\nChecking repositories...\n$Color_Off"
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-cd "$DIR/.."
 
 # SANDBOX
 if [[ ! -d ../sandbox ]]; then
