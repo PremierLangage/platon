@@ -109,7 +109,9 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     Please continue reading this guide to learn more about all the generated files and directories.
 
 3.
-    Generate docker images of PLaTon services
+    Generate docker images of PLaTon services.
+
+    > By default, the docker daemon always runs as the `root` user on a linux system. If you don’t want to preface the docker command with `sudo` [please read this guide](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket).
 
     ```sh
     ./bin/dev-build.sh
@@ -119,6 +121,8 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     Run PLaTon with nginx inside docker and open the browser on `https://platon.dev`
 
     > This will work because `platon.dev` host is added to the `/etc/hosts/` file of your system by the install script and a `ssl` certificate is generated under the directory `server/certs` to be used by nginx.
+
+    > You have to wait for all the containers (specialy the `platon_app` container that will compile angular components before running it) to be running before opening your browser.
 
     ```sh
     ./bin/dev-up.sh
