@@ -140,7 +140,9 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 We have very precise rules over how our git commit messages can be formatted.  This leads to **more
 readable messages** that are easy to follow when looking through the **project history**.  But also,
-we use the git commit messages to **generate the Platon Front change log**.
+we use the git commit messages to **generate change log**.
+
+This convention is based on [conventionalcommits](https://www.conventionalcommits.org/en/v1.0.0/) specifications.
 
 ### Commit Message Format
 

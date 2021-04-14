@@ -262,22 +262,22 @@ The following table list all the environment variables defined inside the `.env`
 
 > You must define the host part of the SANDBOX_URL to your IP address instead of localhost since the sandbox is not dockerized.
 
-## Backend
-
-TODO
-
-## Frontend
-
-TODO
-
-## Sandbox
-
-TODO
-
-## Deployment
-
-TODO
-
 ## Contributing
 
-TODO
+### Contributing guidelines
+
+Read through our [contributing guidelines](https://github.com/PremierLangage/platon/blob/master/CONTRIBUTING.md) to learn about our submission process, coding rules and more.
+
+### Want to help?
+
+Want to report a bug, contribute some code, or improve the platform? Read up on our guidelines for
+[contributing](https://github.com/PremierLangage/platon/blob/master/CONTRIBUTING.md) and then check out one of our issues labeled as [help wanted](https://github.com/PremierLangage/platon/labels/help%20wanted) or
+[submit a new one](https://github.com/PremierLangage/platon/issues).
+
+### REST API conventions
+
+In order to contribute to the backend code, so you must follow the principles of REST API conventions as described [here](https://restfulapi.net) and apply it to [Django REST Framework](https://www.django-rest-framework.org).
+
+### Git commit conventions
+
+We have very precise rules over how our git commit messages can be formatted. Please read the convention [here](https://github.com/PremierLangage/platon/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
