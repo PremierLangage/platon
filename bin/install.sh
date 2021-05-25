@@ -77,36 +77,8 @@ if [[ ! -d ../platon-server ]]; then
    mkdir -p ../platon-server/shared
    mkdir -p ../platon-server/shared/static
    mkdir -p ../platon-server/shared/templates
-
-
+   touch ../platon-server/platon/config.json
    touch ../platon-server/platon/config.py
-   echo -e "
-{
-   \"lms\": [
-      {
-            \"guid\": \"elearning.u-pem.fr\",
-            \"name\": \"ELEARNING UPEM\",
-            \"url\": \"https://elearning.u-pem.fr/\",
-            \"outcome_url\": \"https://elearning.u-pem.fr/mod/lti/service.php\",
-            \"client_id\": \"moodle\",
-            \"client_secret\":\"secret\"
-      }
-   ],
-   \"admins\": [
-      {
-            \"username\": \"admin\",
-            \"password\": \"adminadmin\"
-      }
-   ],
-   \"sandboxes\": [
-      {
-            \"name\": \"Default\",
-            \"url\": \"http://localhost:7000/\",
-            \"enabled\": true
-      }
-   ]
-}
-   ">> ../platon-server/platon/config.json
 
    echo -e "platon-server:$Green cloned !$Color_Off"
 else
@@ -151,7 +123,7 @@ ELASTICSEARCH_HOST=172.17.0.1
 ELASTICSEARCH_PORT=9200
 
 # sandbox settings in settings.py of platon-server
-SANDBOX_URL=http://localhost:7000/
+SANDBOX_URL=http://REPLACE_THIS_BY_YOUR_IP:7000/
 " >> .env
 fi
 echo -e ".env:$Green OK !$Color_Off"

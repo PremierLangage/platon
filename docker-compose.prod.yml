@@ -48,6 +48,7 @@ services:
     image: platon/api
     container_name: platon_api
     command: sh -c "python3 manage.py waitdb &&
+                    python3 manage.py makemigrations &&
                     python3 manage.py migrate &&
                     python3 manage.py createdefaults &&
                     python3 manage.py collectstatic --noinput &&
