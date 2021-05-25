@@ -77,8 +77,8 @@ if [[ ! -d ../platon-server ]]; then
    mkdir -p ../platon-server/shared
    mkdir -p ../platon-server/shared/static
    mkdir -p ../platon-server/shared/templates
-   touch ../platon-server/platon/config.json
    touch ../platon-server/platon/config.py
+   cp config.json ../platon-server/platon/config.json
 
    echo -e "platon-server:$Green cloned !$Color_Off"
 else

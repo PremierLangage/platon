@@ -258,43 +258,14 @@ The following table list all the environment variables defined inside the `.env`
 | REDIS_PORT | api | Sets django's `REDIS_PORT` value setting | 6379 |
 | ELASTICSEARCH_HOST | api | Sets django's `ELASTICSEARCH_HOST` value setting | 172.17.0.1 |
 | ELASTICSEARCH_PORT | api | Sets django's `ELASTICSEARCH_PORT` value setting  | 9200 |
-| SANDBOX_URL | api | Sets django's `SANDBOX_URL` value setting  | <http://localhost:7000/> |
+| SANDBOX_URL | api | Sets django's `SANDBOX_URL` value setting  | <http://YOUR_ID_ADDRESS:7000/> |
 
 > You must define the host part of the SANDBOX_URL to your IP address instead of localhost since the sandbox is not dockerized.
 
 ## Backend
 
-During the execution of the `install.sh` script, a `config.json` file will be generated into `platon-server/platon/config.json`. This file is not versioned and it allow you to add some default data to the database like admin users, sandboxes....
-
-The default content of this file is the following one.
-
-```json
-{
-   "lms": [
-      {
-            "guid": "elearning.u-pem.fr",
-            "name": "ELEARNING UPEM",
-            "url": "https://elearning.u-pem.fr/",
-            "outcome_url": "https://elearning.u-pem.fr/mod/lti/service.php",
-            "client_id": "moodle",
-            "client_secret":"secret"
-      }
-   ],
-   "admins": [
-      {
-            "username": "admin",
-            "password": "adminadmin"
-      }
-   ],
-   "sandboxes": [
-      {
-            "name": "Default",
-            "url": "http://localhost:7000/",
-            "enabled": true
-      }
-   ]
-}
-```
+During the execution of the `install.sh` script, the file `config.json` of this repository  will be copied to `platon-server/platon/config.json`. This file is not versioned in platon-server repo and it allow you to add some default data
+to the database like admin users, lms...
 
 ## Contributing
 

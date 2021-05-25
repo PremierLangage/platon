@@ -1,0 +1,254 @@
+{
+  "lms": [
+    {
+      "guid": "elearning.u-pem.fr",
+      "name": "ELEARNING UPEM",
+      "url": "https://elearning.u-pem.fr/",
+      "outcome_url": "https://elearning.u-pem.fr/mod/lti/service.php",
+      "client_id": "moodle",
+      "client_secret": "secret"
+    }
+  ],
+  "users": [
+    {
+      "first_name": "Madalyn",
+      "last_name": "Rhubottom",
+      "username": "mrhubottom",
+      "email": "mrhubottom0@prlog.org",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Yank",
+      "last_name": "Picker",
+      "username": "ypicker",
+      "email": "ypicker1@redcross.org",
+      "is_admin": true,
+      "is_editor": true
+    },
+    {
+      "first_name": "Rafa",
+      "last_name": "Raison",
+      "username": "rraison",
+      "email": "rraison2@soup.io",
+      "is_admin": true,
+      "is_editor": true
+    },
+    {
+      "first_name": "Gannon",
+      "last_name": "Lias",
+      "username": "glias",
+      "email": "glias3@dion.ne.jp",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Jeffy",
+      "last_name": "Ingman",
+      "username": "jingman",
+      "email": "jingman4@plala.or.jp",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Barton",
+      "last_name": "MacManus",
+      "username": "bcacManus",
+      "email": "bmacmanus5@chicagotribune.com",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Nahum",
+      "last_name": "Cawse",
+      "username": "ncawse",
+      "email": "ncawse6@cdbaby.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Terrie",
+      "last_name": "Palliser",
+      "username": "tpalliser",
+      "email": "tpalliser7@51.la",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Nicolette",
+      "last_name": "Loding",
+      "username": "nloding",
+      "email": "nloding8@irs.gov",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Cher",
+      "last_name": "Dzenisenka",
+      "username": "cdzenisenka",
+      "email": "cdzenisenka9@google.ru",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Ciel",
+      "last_name": "Brickhill",
+      "username": "cbrickhill",
+      "email": "cbrickhilla@sakura.ne.jp",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Orly",
+      "last_name": "Sutherden",
+      "username": "osutherden",
+      "email": "osutherdenb@timesonline.co.uk",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Lizbeth",
+      "last_name": "Scotfurth",
+      "username": "lscotfurth",
+      "email": "lscotfurthc@istockphoto.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Clyde",
+      "last_name": "Tevelov",
+      "username": "ctevelov",
+      "email": "ctevelovd@blogger.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Gauthier",
+      "last_name": "McCloughlin",
+      "username": "gmccloughlin",
+      "email": "gmccloughline@washington.edu",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Aubert",
+      "last_name": "Ruston",
+      "username": "aruston",
+      "email": "arustonf@mediafire.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Gill",
+      "last_name": "Finding",
+      "username": "gfinding",
+      "email": "gfindingg@a8.net",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Coriss",
+      "last_name": "Dabernott",
+      "username": "cdabernott",
+      "email": "cdabernotth@tiny.cc",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Matthiew",
+      "last_name": "Beisley",
+      "username": "mbeisley",
+      "email": "mbeisleyi@icio.us",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Nancee",
+      "last_name": "Leach",
+      "username": "nleach",
+      "email": "nleachj@cloudflare.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Kelila",
+      "last_name": "Twining",
+      "username": "ktwining",
+      "email": "ktwiningk@un.org",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Yancy",
+      "last_name": "MacGillavery",
+      "username": "ymacgillavery",
+      "email": "ymacgillaveryl@de.vu",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Colan",
+      "last_name": "Jaffrey",
+      "username": "cjaffrey",
+      "email": "cjaffreym@blog.com",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Karl",
+      "last_name": "Robathon",
+      "username": "krobathon",
+      "email": "krobathonn@huffingtonpost.com",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Eleonore",
+      "last_name": "Darrington",
+      "username": "edarrington",
+      "email": "edarringtono@cocolog-nifty.com",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Judon",
+      "last_name": "Penvarden",
+      "username": "jpenvarden",
+      "email": "jpenvardenp@huffingtonpost.com",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Tripp",
+      "last_name": "Pethybridge",
+      "username": "tpethybridge",
+      "email": "tpethybridgeq@pbs.org",
+      "is_admin": false,
+      "is_editor": true
+    },
+    {
+      "first_name": "Brigg",
+      "last_name": "Smitherham",
+      "username": "bsmitherham",
+      "email": "bsmitherhamr@constantcontact.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Lancelot",
+      "last_name": "Talkington",
+      "username": "ltalkington",
+      "email": "ltalkingtons@zimbio.com",
+      "is_admin": false,
+      "is_editor": false
+    },
+    {
+      "first_name": "Susanne",
+      "last_name": "Sawer",
+      "username": "ssawer",
+      "email": "ssawert@illinois.edu",
+      "is_admin": false,
+      "is_editor": true
+    }
+  ]
+}
