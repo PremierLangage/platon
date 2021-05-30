@@ -250,5 +250,43 @@
       "is_admin": false,
       "is_editor": true
     }
+  ],
+  "levels": [
+    "6e",
+    "5e",
+    "4e",
+    "3e",
+    "2nd",
+    "1ère",
+    "Terminal",
+    "L1",
+    "L2",
+    "L3",
+    "M1",
+    "M2",
+    "BTS 1",
+    "BTS 2",
+    "DUT 1",
+    "DUT 2"
+  ],
+  "topics": [
+    "Informatique",
+    "Python",
+    "Java",
+    "C",
+    "C++",
+    "Mathématique",
+    "Analyse",
+    "Algèbre",
+    "Arithmétique",
+    "Physique",
+    "Chimie",
+    "Histoire",
+    "Sciences",
+    "Langues",
+    "Français",
+    "Anglais",
+    "Espagnol",
+    "Allemand"
   ]
 }
