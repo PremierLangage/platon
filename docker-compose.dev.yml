@@ -25,20 +25,20 @@ services:
     env_file:
       - .env
 
-  #elasticsearch:
-  #  restart: on-failure
-  #  image: elasticsearch:7.12.0
-  #  container_name: platon_elasticsearch
-  #  ports:
-  #    - 9200:9200
-  #    - 9300:9300
-  #  volumes:
-  #    - elasticsearchdata:/usr/share/elasticsearch/data
-  #  environment:
-  #    - discovery.type=single-node
-  #    - ES_JAVA_OPTS=-Xms750m -Xmx750m
-  #  networks:
-  #    - platon-network
+  elasticsearch:
+    restart: on-failure
+    image: elasticsearch:7.12.0
+    container_name: platon_elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    networks:
+      - platon-network
 
   api:
     restart: on-failure
@@ -58,6 +58,8 @@ services:
       - ../platon-server/:/api
     networks:
       - platon-network
+    environment:
+      - 'SANDBOX_URL=http://$SANDBOX_HOST:$SANDBOX_PORT'
     env_file:
       - .env
     depends_on:
@@ -88,12 +90,11 @@ services:
       dockerfile: platon/app/Dockerfile
     image: platon/app
     container_name: platon_app
-    command: npm start -- --host 0.0.0.0 --disable-host-check
+    command: npm start -- --host 0.0.0.0 --disable-host-check 
     ports:
       - 4200:4200
     volumes:
       - ../platon-front/:/app
-      - /app/node_modules
     networks:
       - platon-network
 

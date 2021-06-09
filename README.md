@@ -159,6 +159,7 @@ In addition to these 3 scripts, the project contains other scripts placed in the
 | `dev-build.sh` | Install the development environment (by building Docker images). | Before running `dev-up.sh` (don't worry docker will cache the build and rebuild only if a change occurs to the requirements of the frontend of backend) |
 | `dev-up.sh` | Execute all development services. |  When you wan't to run PLaTon in development mode |
 | `dev-down.sh` | Stop all development services. |  When you wan't to stop the docker containers |
+| `dev-sandbox.sh` | Start the sandbox server. |  When you wan't to use the features depending on a sandbox |
 | `install.sh` | Clones the repositories and add some default config files (This script will not clone the repositories if you already have them and it will not override your config files). |  Only once or when you pull a change from this repository. |
 | `prod-build.sh` | Install the production environment (by building Docker images). | Same as the `dev-build script` for prod environment.  |
 | `prod-up.sh` | Execute all production services.. |  Same as the `dev-up script` for prod environment.  |
@@ -210,7 +211,7 @@ In a development environment:
 - Angular will be served on the port `7000` using `npm start` command.
 - Nginx will listen on port `80` (http) and `443` (https) to forward the requests to Django or Angular depending on the requested url prefix.
 - Postgres, Redis and Elasticsearch will listen on their own standard port.
-- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `python3 manage.py runserver IP:7000`.
+- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `./bin/dev-sandbox.sh`.
 
 HOT reloading is enabled in this mode since angular and django are started using a dedicated webserver so any time a file change in the projects, the code will be recompiled. This works thanks to [docker volumes](https://www.freecodecamp.org/news/how-to-enable-live-reload-on-docker-based-applications/) (the source codes will be mounted inside the containers).
 
@@ -258,9 +259,8 @@ The following table list all the environment variables defined inside the `.env`
 | REDIS_PORT | api | Sets django's `REDIS_PORT` value setting | 6379 |
 | ELASTICSEARCH_HOST | api | Sets django's `ELASTICSEARCH_HOST` value setting | 172.17.0.1 |
 | ELASTICSEARCH_PORT | api | Sets django's `ELASTICSEARCH_PORT` value setting  | 9200 |
-| SANDBOX_URL | api | Sets django's `SANDBOX_URL` value setting  | <http://YOUR_ID_ADDRESS:7000/> |
 
-> You must define the host part of the SANDBOX_URL to your IP address instead of localhost since the sandbox is not dockerized.
+> There are two more environment variables defined inside the docker-compose files `SANDBOX_HOST` and `SANDBOX_PORT` by the `./bin/dev-up.sh` script.
 
 ## Backend
 
