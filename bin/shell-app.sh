@@ -1,1 +1,1 @@
-docker exec -it platon_api /bin/sh
+docker exec -it platon_app /bin/sh

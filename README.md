@@ -260,7 +260,7 @@ The following table list all the environment variables defined inside the `.env`
 | ELASTICSEARCH_HOST | api | Sets django's `ELASTICSEARCH_HOST` value setting | 172.17.0.1 |
 | ELASTICSEARCH_PORT | api | Sets django's `ELASTICSEARCH_PORT` value setting  | 9200 |
 
-> There are two more environment variables defined inside the docker-compose files `SANDBOX_HOST` and `SANDBOX_PORT` by the `./bin/dev-up.sh` script.
+> There are two more environment variables defined dynamically inside the docker-compose files `SANDBOX_HOST` and `SANDBOX_PORT` by the `./bin/dev-up.sh` script.
 
 ## Backend
 
