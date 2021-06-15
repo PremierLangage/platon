@@ -25,20 +25,20 @@ services:
     env_file:
       - .env
 
-  # elasticsearch:
-  #   restart: on-failure
-  #   image: elasticsearch:7.12.0
-  #   container_name: platon_elasticsearch
-  #   ports:
-  #     - 9200:9200
-  #     - 9300:9300
-  #   volumes:
-  #     - elasticsearchdata:/usr/share/elasticsearch/data
-  #   environment:
-  #     - discovery.type=single-node
-  #     - ES_JAVA_OPTS=-Xms750m -Xmx750m
-  #   networks:
-  #     - platon-network
+  elasticsearch:
+    restart: on-failure
+    image: elasticsearch:7.12.0
+    container_name: platon_elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    networks:
+      - platon-network
 
   api:
     restart: on-failure
@@ -65,23 +65,23 @@ services:
     depends_on:
       - redis
       - postgres
-    # - elasticsearch
+    - elasticsearch
 
-  # celery:
-  #   restart: on-failure
-  #   image: platon/api
-  #   container_name: platon_celery
-  #   command: celery -A platon worker --beat --scheduler django -l debug --uid=nobody --gid=nogroup
-  #   volumes:
-  #     - ../platon-server/:/api
-  #   networks:
-  #     - platon-network
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - api
-  #     - redis
-  #     - postgres
+  celery:
+    restart: on-failure
+    image: platon/api
+    container_name: platon_celery
+    command: celery -A platon worker --beat --scheduler django -l debug --uid=nobody --gid=nogroup
+    volumes:
+      - ../platon-server/:/api
+    networks:
+      - platon-network
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+      - postgres
 
   app:
     restart: on-failure
@@ -125,7 +125,7 @@ services:
 volumes:
   redisdata:
   postgresdata:
-  # elasticsearchdata:
+  elasticsearchdata:
 
 networks:
   platon-network:

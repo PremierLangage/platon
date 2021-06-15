@@ -121,9 +121,6 @@ REDIS_PORT=6379
 # elasticsearch settings in settings.py of platon-server
 ELASTICSEARCH_HOST=172.17.0.1
 ELASTICSEARCH_PORT=9200
-
-# sandbox settings in settings.py of platon-server
-SANDBOX_URL=http://REPLACE_THIS_BY_YOUR_IP:7000/
 " >> .env
 fi
 echo -e ".env:$Green OK !$Color_Off"
