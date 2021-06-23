@@ -26,11 +26,11 @@ Also please create your issues on this repository and we will transfer them to t
 
 [platon-server](https://github.com/PremierLangage/platon-server/)
 
-[![Tests](https://github.com/PremierLangage/platon-server/workflows/Tests/badge.svg)](https://github.com/PremierLangage/sandbox/actions/)
+[![Tests](https://github.com/PremierLangage/platon-server/workflows/Tests/badge.svg)](https://github.com/PremierLangage/platon-server/actions/)
 
 [platon-front](https://github.com/PremierLangage/platon-front/)
 
-[![Tests](https://github.com/PremierLangage/platon-front/workflows/Tests/badge.svg)](https://github.com/PremierLangage/sandbox/actions/)
+[![Tests](https://github.com/PremierLangage/platon-front/workflows/Tests/badge.svg)](https://github.com/PremierLangage/platon-front/actions/)
 
 ## Development
 
