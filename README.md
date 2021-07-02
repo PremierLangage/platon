@@ -39,6 +39,7 @@ Also please create your issues on this repository and we will transfer them to t
 In order to run PLaTon you'll need the following tools installed
 
 - [`Docker`](https://www.docker.com)
+- [`Docker Compose`](https://docs.docker.com/compose/)
 - [`OpenSSL`](https://www.openssl.org)
 - [`ca-certificates`](https://packages.debian.org/fr/sid/ca-certificates) (only on a linux system)
 - [`Visual Studio Code`](https://code.visualstudio.com)
