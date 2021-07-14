@@ -49,9 +49,12 @@ In order to run PLaTon you'll need the following tools installed
 [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) and the [Remote development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extensions on vscode. The first one will allow you to use docker inside the editor and the second to use docker as a full-featured development environment.
 
 > You will be asked to install the extensions on the first time you will open the project, but if not you can also display the recommendations by opening the command palette of vscode (`CTRL + P` on Linux and `CMD + P` on Mac) then type the following text
+
 <p align="left">
     <img src="./images/vscode-recommendations.png" alt="vscode recommentations" width="620px" />
 </p>
+
+> By default, the docker daemon always runs as the `root` user on a linux system. If you don’t want to preface the docker command with `sudo` [please read this guide](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket).
 
 > Also if you are using docker for mac, we recommend you to increase the memory size to 4GB in the resources section of the docker dashboard.
 <p align="left">
@@ -109,24 +112,20 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     Please continue reading this guide to learn more about all the generated files and directories.
 
 3.
-    Generate docker images of PLaTon services.
-
-    > By default, the docker daemon always runs as the `root` user on a linux system. If you don’t want to preface the docker command with `sudo` [please read this guide](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket).
+    Generate docker images of PLaTon services and run containers.
 
     ```sh
-    ./bin/dev-build.sh
+    ./bin/docker-up.sh
     ```
+
+    > The creation of the images may take some times on the first usage depending on your system setup.
 
 4.
-    Run PLaTon with nginx inside docker and open the browser on `https://platon.dev`
+    Once all services starts, open the browser on `https://platon.dev`
 
-    > This will work because `platon.dev` host is added to the `/etc/hosts/` file of your system by the install script and a `ssl` certificate is generated under the directory `server/certs` to be used by nginx.
+    > This will work because `platon.dev` host is added to the `/etc/hosts/` file of your system by the `install.sh` script and a `ssl` certificate is generated under the directory `server/certs` to be used by nginx.
 
-    > You have to wait for all the containers (specialy the `platon_app` container that will compile angular components before running it) to be running before opening your browser.
-
-    ```sh
-    ./bin/dev-up.sh
-    ```
+    > You have to wait for all the containers (specialy the `platon_app (app_1)` container that will compile angular components before running it) to be running before opening your browser.
 
     At this point, you will see an error in your browser like the following one:
 
@@ -156,17 +155,14 @@ In addition to these 3 scripts, the project contains other scripts placed in the
 
 | Script | Description | When to use |
 | --- | --- | --- |
-| `dev-build.sh` | Install the development environment (by building Docker images). | Before running `dev-up.sh` (don't worry docker will cache the build and rebuild only if a change occurs to the requirements of the frontend of backend) |
-| `dev-up.sh` | Execute all development services. |  When you wan't to run PLaTon in development mode |
-| `dev-down.sh` | Stop all development services. |  When you wan't to stop the docker containers |
-| `dev-sandbox.sh` | Start the sandbox server. |  When you wan't to use the features depending on a sandbox |
+| `docker-up.sh` | Create development docker images of the project and start all development containers. | When you wan't to run PLaTon in development mode |
+| `docker-up.sh --prod` | Create production docker images of the project and start all production containers. | When you wan't to run PLaTon in production mode |
+| `docker-down.sh` | Stop all running containers. |  When you wan't to stop the docker containers |
+| `sandbox.sh` | Start the sandbox development server. |  When you wan't to use the features depending on a sandbox (must be used before `docker-up.sh`) |
 | `install.sh` | Clones the repositories and add some default config files (This script will not clone the repositories if you already have them and it will not override your config files). |  Only once or when you pull a change from this repository. |
-| `prod-build.sh` | Install the production environment (by building Docker images). | Same as the `dev-build script` for prod environment.  |
-| `prod-up.sh` | Execute all production services.. |  Same as the `dev-up script` for prod environment.  |
-| `prod-down.sh` | Stop all development services.. |  Same as the `dev-down script` for prod environment.  |
-| `shell-api.sh` | Connect to the backend container. | To run `manage.py` commands for example (the dev or prod services must be started before in order to run this script)?-. |
-| `shell-app.sh` | Connect to the frontend project container. | To run `ng` commands to run unitests for example (the dev or prod services must be started before in order to run this script). |
-| `shell-postgres.sh` | Connect to the postgres database container. | To run `psql` commands to create a dump for example (the dev or prod services must be started before in order to run this script). |
+| `shell-api.sh` | Connect to the backend container. | To run `manage.py` commands for example (the containers must be started before in order to run this script)?-. |
+| `shell-app.sh` | Connect to the frontend project container. | To run `ng` commands to run unitests for example (the containers must be started before in order to run this script). |
+| `shell-postgres.sh` | Connect to the postgres database container. | To run `psql` commands to create a dump for example (the containers must be started before in order to run this script). |
 
 ### Open container inside vscode
 
@@ -211,7 +207,7 @@ In a development environment:
 - Angular will be served on the port `7000` using `npm start` command.
 - Nginx will listen on port `80` (http) and `443` (https) to forward the requests to Django or Angular depending on the requested url prefix.
 - Postgres, Redis and Elasticsearch will listen on their own standard port.
-- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `./bin/dev-sandbox.sh`.
+- The sandbox is the only service that is not be dockerized. You must install it on your system and start it using `./bin/sandbox.sh`.
 
 HOT reloading is enabled in this mode since angular and django are started using a dedicated webserver so any time a file change in the projects, the code will be recompiled. This works thanks to [docker volumes](https://www.freecodecamp.org/news/how-to-enable-live-reload-on-docker-based-applications/) (the source codes will be mounted inside the containers).
 
@@ -253,19 +249,19 @@ The following table list all the environment variables defined inside the `.env`
 | DB_NAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django_platon |
 | DB_USERNAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django |
 | DB_PASSWORD | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) password value setting | django_password |
-| DB_HOST | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) host value setting  | 172.17.0.1 |
-| DB_PORT | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) port value setting  | 5431 |
-| REDIS_HOST | api | Sets django's `REDIS_HOST` value setting | 172.17.0.1 |
+| DB_HOST | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) host value setting  | postgres |
+| DB_PORT | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) port value setting  | 5432 |
+| REDIS_HOST | api | Sets django's `REDIS_HOST` value setting | redis |
 | REDIS_PORT | api | Sets django's `REDIS_PORT` value setting | 6379 |
-| ELASTICSEARCH_HOST | api | Sets django's `ELASTICSEARCH_HOST` value setting | 172.17.0.1 |
+| ELASTICSEARCH_HOST | api | Sets django's `ELASTICSEARCH_HOST` value setting | elasticsearch |
 | ELASTICSEARCH_PORT | api | Sets django's `ELASTICSEARCH_PORT` value setting  | 9200 |
 
-> There are two more environment variables defined dynamically inside the docker-compose files `SANDBOX_HOST` and `SANDBOX_PORT` by the `./bin/dev-up.sh` script.
+> There are two more environment variables defined dynamically inside the docker-compose files `SANDBOX_HOST` and `SANDBOX_PORT` by the `./bin/docker-up.sh` script.
 
 ## Backend
 
 During the execution of the `install.sh` script, the file `config.json` of this repository  will be copied to `platon-server/platon/config.json`. This file is not versioned in platon-server repo and it allow you to add some default data
-to the database like admin users, lms...
+to the database like users, lms...
 
 ## Contributing
 
