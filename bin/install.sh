@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Authorize the execution of this script from anywhere
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$DIR/.."
 
@@ -105,21 +106,21 @@ PG_DATA=/var/lib/postgresql/data
 
 # API SERVICE (platon-server)
 DEBUG=true
-ALLOWED_HOSTS=127.0.0.1,localhost,platon.dev
+ALLOWED_HOSTS=*
 
 # Database settings in settings.py of platon-server
 DB_NAME=django_platon
 DB_USERNAME=django
 DB_PASSWORD=django_password
-DB_HOST=172.17.0.1
-DB_PORT=5431
+DB_HOST=postgres
+DB_PORT=5432
 
 # redis settings in settings.py of platon-server
-REDIS_HOST=172.17.0.1
+REDIS_HOST=redis
 REDIS_PORT=6379
 
 # elasticsearch settings in settings.py of platon-server
-ELASTICSEARCH_HOST=172.17.0.1
+ELASTICSEARCH_HOST=elasticsearch
 ELASTICSEARCH_PORT=9200
 " >> .env
 fi

@@ -6,7 +6,7 @@ services:
     image: redis:6
     container_name: platon_redis
     ports:
-      - 6379:6379
+      - 6379
     volumes:
       - redisdata:/data
     networks:
@@ -17,28 +17,13 @@ services:
     image: postgres:13
     container_name: platon_postgres
     ports:
-      - 5431:5432
+      - 5432
     volumes:
       - postgresdata:/var/lib/postgresql/data
     networks:
       - platon-network
     env_file:
       - .env
-
-  elasticsearch:
-    restart: always
-    image: elasticsearch:7.12.0
-    container_name: platon_elasticsearch
-    ports:
-      - 9200:9200
-      - 9300:9300
-    volumes:
-      - elasticsearchdata:/usr/share/elasticsearch/data
-    networks:
-      - platon-network
-    environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms750m -Xmx750m
 
   api:
     restart: always
@@ -48,40 +33,25 @@ services:
     image: platon/api
     container_name: platon_api
     command: sh -c "python3 manage.py waitdb &&
-                    python3 manage.py makemigrations &&
                     python3 manage.py migrate &&
                     python3 manage.py createdefaults &&
                     python3 manage.py collectstatic --noinput &&
                     uvicorn platon.asgi:application --port 8000 --host 0.0.0.0 --workers 1"
     ports:
-      - 8000:8000
+      - 8000
     volumes:
       - media:/api/media
       - static:/api/static
     networks:
       - platon-network
+    environment:
+      - 'SANDBOX_URL=http://$SANDBOX_HOST:$SANDBOX_PORT'
     env_file:
       - .env
     depends_on:
       - redis
       - postgres
-      - elasticsearch
-
-  celery:
-    restart: always
-    image: platon/api
-    container_name: platon_celery
-    command: celery -A platon worker --beat --scheduler django -l info --uid=nobody --gid=nogroup
-    volumes:
-      - ../platon-server/:/api
-    networks:
-      - platon-network
-    env_file:
-      - .env
-    depends_on:
-      - api
-      - redis
-      - postgres
+    #  - elasticsearch
 
   server:
     restart: always
@@ -113,13 +83,44 @@ services:
     depends_on:
       - api
 
+  celery:
+    restart: always
+    image: platon/api
+    container_name: platon_celery
+    command: celery -A platon worker --beat --scheduler django -l info --uid=nobody --gid=nogroup
+    volumes:
+      - ../platon-server/:/api
+    networks:
+      - platon-network
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+      - postgres
+
+  # elasticsearch:
+  #   restart: always
+  #   image: elasticsearch:7.12.0
+  #   container_name: platon_elasticsearch
+  #   ports:
+  #     - 9200
+  #     - 9300
+  #   volumes:
+  #     - elasticsearchdata:/usr/share/elasticsearch/data
+  #   networks:
+  #     - platon-network
+  #   environment:
+  #     - discovery.type=single-node
+  #     - ES_JAVA_OPTS=-Xms750m -Xmx750m
+
 
 volumes:
   media:
   static:
   redisdata:
   postgresdata:
-  elasticsearchdata:
+  #elasticsearchdata:
 
 
 networks:
