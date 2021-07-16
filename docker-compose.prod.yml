@@ -6,18 +6,26 @@ services:
     image: redis:6
     container_name: platon_redis
     ports:
-      - 6379
+      - 6379:6379
     volumes:
       - redisdata:/data
     networks:
       - platon-network
 
+  certbot:
+    image: certbot/certbot
+    restart: always
+    volumes:
+        - ./server/certbot/conf:/etc/letsencrypt
+        - ./server/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do cerbot renew; sleep 12h & wait $${!}; done;'"
+    
   postgres:
     restart: always
     image: postgres:13
     container_name: platon_postgres
     ports:
-      - 5432
+      - 5431:5432
     volumes:
       - postgresdata:/var/lib/postgresql/data
     networks:
@@ -36,6 +44,7 @@ services:
                     python3 manage.py migrate &&
                     python3 manage.py createdefaults &&
                     python3 manage.py collectstatic --noinput &&
+                    python3 manage.py runserver 0.0.0.0:8000
                     uvicorn platon.asgi:application --port 8000 --host 0.0.0.0 --workers 1"
     ports:
       - 8000
@@ -60,6 +69,7 @@ services:
       dockerfile: platon/server/Dockerfile.prod
     image: platon/server
     container_name: platon_server
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"    
     ports:
       - 80:80
       - 443:433
@@ -70,12 +80,11 @@ services:
 
       # NGINX CONF
       - ./server/nginx.prod.conf:/etc/nginx/nginx.conf
-
+     
       # SSL CONF
-      - ./server/dhparam/dhparam.pem:/etc/nginx/dhparam.pem
-      # REPLACE THESE FILES WITH PRODUCTION SSL FILES
-      - ./server/certs/example.com.crt:/etc/nginx/ssl/example.com.crt
-      - ./server/certs/example.com.key:/etc/nginx/ssl/example.com.key
+      - ./server/certbot/conf:/etc/letsencrypt
+      - ./server/certbot/www:/var/www/certbot
+
     networks:
       - platon-network
     links:
