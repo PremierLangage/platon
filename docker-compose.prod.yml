@@ -11,15 +11,7 @@ services:
       - redisdata:/data
     networks:
       - platon-network
-
-  certbot:
-    image: certbot/certbot
-    restart: always
-    volumes:
-        - ./server/certbot/conf:/etc/letsencrypt
-        - ./server/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do cerbot renew; sleep 12h & wait $${!}; done;'"
-    
+ 
   postgres:
     restart: always
     image: postgres:13
@@ -44,7 +36,7 @@ services:
                     python3 manage.py migrate &&
                     python3 manage.py createdefaults &&
                     python3 manage.py collectstatic --noinput &&
-                    python3 manage.py runserver 0.0.0.0:8000
+                    python3 manage.py runserver 0.0.0.0:8000 &&
                     uvicorn platon.asgi:application --port 8000 --host 0.0.0.0 --workers 1"
     ports:
       - 8000
@@ -92,6 +84,14 @@ services:
     depends_on:
       - api
 
+  certbot:
+    image: certbot/certbot
+    restart: always
+    volumes:
+        - ./server/certbot/conf:/etc/letsencrypt
+        - ./server/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do cerbot renew; sleep 12h & wait $${!}; done;'"
+   
   celery:
     restart: always
     image: platon/api

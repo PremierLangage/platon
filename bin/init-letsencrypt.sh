@@ -80,4 +80,4 @@ docker-compose -f docker-compose.prod.yml run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker-compose exec server nginx -s reload
+docker-compose -f docker-compose.prod.yml exec server nginx -s reload
