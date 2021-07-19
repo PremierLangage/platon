@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   redis:
@@ -11,7 +11,7 @@ services:
       - redisdata:/data
     networks:
       - platon-network
- 
+
   postgres:
     restart: always
     image: postgres:13
@@ -33,11 +33,11 @@ services:
     image: platon/api
     container_name: platon_api
     command: sh -c "python3 manage.py waitdb &&
-                    python3 manage.py migrate &&
-                    python3 manage.py createdefaults &&
-                    python3 manage.py collectstatic --noinput &&
-                    python3 manage.py runserver 0.0.0.0:8000 &&
-                    uvicorn platon.asgi:application --port 8000 --host 0.0.0.0 --workers 1"
+      python3 manage.py migrate &&
+      python3 manage.py createdefaults &&
+      python3 manage.py collectstatic --noinput &&
+      python3 manage.py runserver 0.0.0.0:8000 &&
+      uvicorn platon.asgi:application --port 8000 --host 0.0.0.0 --workers 1"
     ports:
       - 8000
     volumes:
@@ -46,13 +46,21 @@ services:
     networks:
       - platon-network
     environment:
-      - 'SANDBOX_URL=http://$SANDBOX_HOST:$SANDBOX_PORT'
+      - "SANDBOX_URL=http://$SANDBOX_HOST:$SANDBOX_PORT"
     env_file:
       - .env
     depends_on:
       - redis
       - postgres
     #  - elasticsearch
+  certbot:
+    image: certbot/certbot
+    container_name: platon_certbot
+    restart: always
+    volumes:
+      - ./server/certbot/conf:/etc/letsencrypt
+      - ./server/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do cerbot renew; sleep 12h & wait $${!}; done;'"
 
   server:
     restart: always
@@ -61,7 +69,7 @@ services:
       dockerfile: platon/server/Dockerfile.prod
     image: platon/server
     container_name: platon_server
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"    
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     ports:
       - 80:80
       - 443:433
@@ -72,7 +80,7 @@ services:
 
       # NGINX CONF
       - ./server/nginx.prod.conf:/etc/nginx/nginx.conf
-     
+
       # SSL CONF
       - ./server/certbot/conf:/etc/letsencrypt
       - ./server/certbot/www:/var/www/certbot
@@ -84,14 +92,6 @@ services:
     depends_on:
       - api
 
-  certbot:
-    image: certbot/certbot
-    restart: always
-    volumes:
-        - ./server/certbot/conf:/etc/letsencrypt
-        - ./server/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do cerbot renew; sleep 12h & wait $${!}; done;'"
-   
   celery:
     restart: always
     image: platon/api
@@ -123,14 +123,12 @@ services:
   #     - discovery.type=single-node
   #     - ES_JAVA_OPTS=-Xms750m -Xmx750m
 
-
 volumes:
   media:
   static:
   redisdata:
   postgresdata:
   #elasticsearchdata:
-
 
 networks:
   platon-network:
