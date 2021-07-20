@@ -60,7 +60,7 @@ services:
     volumes:
       - ./server/certbot/conf:/etc/letsencrypt
       - ./server/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do cerbot renew; sleep 12h & wait $${!}; done;'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   server:
     restart: always
@@ -72,7 +72,7 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     ports:
       - 80:80
-      - 443:433
+      - 443:443
     volumes:
       # DJANGO
       - media:/api/media
@@ -82,8 +82,8 @@ services:
       - ./server/nginx.prod.conf:/etc/nginx/nginx.conf
 
       # SSL CONF
-      - ./server/certbot/conf:/etc/letsencrypt
       - ./server/certbot/www:/var/www/certbot
+      - ./server/certbot/conf:/etc/letsencrypt
 
     networks:
       - platon-network
@@ -128,7 +128,7 @@ volumes:
   static:
   redisdata:
   postgresdata:
-  #elasticsearchdata:
+  # elasticsearchdata:
 
 networks:
   platon-network:

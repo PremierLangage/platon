@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Authorize the execution of this script from anywhere
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$DIR/.."
@@ -6,6 +7,11 @@ cd "$DIR/.."
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo 'Error: docker-compose is not installed.' >&2
   exit 1
+fi
+
+read -p "Would you like to use letsencrypt for your domain? (y/N) " decision
+if [ "$decision" != "Y" ] && [ "$decision" != "y" ]; then
+  exit
 fi
 
 domains=(example.com www.example.com)

@@ -76,16 +76,18 @@ if [[ ! -d ../platon-server ]]; then
    mkdir -p ../platon-server/media
    mkdir -p ../platon-server/static
    mkdir -p ../platon-server/shared
+   mkdir -p ../platon-server/directories
    mkdir -p ../platon-server/shared/static
    mkdir -p ../platon-server/shared/templates
+
    touch ../platon-server/platon/config.py
+
    cp config.json ../platon-server/platon/config.json
 
    echo -e "platon-server:$Green cloned !$Color_Off"
 else
    echo -e "platon-server:$Green already cloned !$Color_Off"
 fi
-
 
 
 echo -e "$Purple\nGenerating files...\n$Color_Off"
@@ -95,7 +97,6 @@ if [[ ! -f .env ]]; then
 echo -e "
 # INCREASE DOCKER COMPOSE TIMEOUT DELAY DO NOT REMOVE THIS VAR
 COMPOSE_HTTP_TIMEOUT=200
-
 
 # POSTGRES SERVICE
 POSTGRES_USER=django
