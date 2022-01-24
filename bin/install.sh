@@ -76,7 +76,6 @@ if [[ ! -d ../platon-server ]]; then
    mkdir -p ../platon-server/media
    mkdir -p ../platon-server/static
    mkdir -p ../platon-server/shared
-   mkdir -p ../platon-server/directories
    mkdir -p ../platon-server/shared/static
    mkdir -p ../platon-server/shared/templates
 
