@@ -43,6 +43,7 @@ In order to run PLaTon you'll need the following tools installed
 - [`OpenSSL`](https://www.openssl.org)
 - [`ca-certificates`](https://packages.debian.org/fr/sid/ca-certificates) (only on a linux system)
 - [`Visual Studio Code`](https://code.visualstudio.com)
+- [`node 12.22.1 & npm 6.14.12`](https://nodejs.org/) (We recomend using nvm to install specific version of node https://github.com/nvm-sh/nvm)
 
 ### Recommendations
 
@@ -113,15 +114,24 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     Please continue reading this guide to learn more about all the generated files and directories.
 
 3.
+    Install node_modules 
+    
+    ```sh
+    cd ../platon-front/
+    npm install
+    ```
+
+4.
     Generate docker images of PLaTon services and run containers.
 
     ```sh
+    cd ../platon
     ./bin/docker-up.sh
     ```
 
     > The creation of the images may take some times on the first usage depending on your system setup.
 
-4.
+5.
     Once all services starts, open the browser on `https://platon.dev`
 
     > This will work because `platon.dev` host is added to the `/etc/hosts/` file of your system by the `install.sh` script and a `ssl` certificate is generated under the directory `server/certs` to be used by nginx.
