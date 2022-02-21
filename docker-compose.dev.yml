@@ -59,11 +59,13 @@ services:
       dockerfile: platon/app/Dockerfile
     image: platon/app
     container_name: platon_app
-    command: npm start -- --host 0.0.0.0 --disable-host-check 
+    command: npm start -- --host 0.0.0.0 --disable-host-check --verbose
     ports:
       - 4200
     volumes:
       - ../platon-front/:/app
+      # https://burnedikt.com/dockerized-node-development-and-mounting-node-volumes/
+      - /app/node_modules
     networks:
       - platon-network
 
