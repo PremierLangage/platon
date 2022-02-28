@@ -40,8 +40,8 @@ services:
     ports:
       - 8000
     volumes:
-      - ../shared/directories:/shared/directories
       - ../platon-server/:/api
+      - ../nfs_disk/:/api/shared
       #- ../sandbox/directories:/api/directories
     networks:
       - platon-network
