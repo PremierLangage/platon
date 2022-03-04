@@ -75,10 +75,7 @@ if [[ ! -d ../platon-server ]]; then
 
    mkdir -p ../platon-server/media
    mkdir -p ../platon-server/static
-   mkdir -p ../platon-server/shared
-   mkdir -p ../platon-server/directories
-   mkdir -p ../platon-server/shared/static
-   mkdir -p ../platon-server/shared/templates
+   
 
    touch ../platon-server/platon/config.py
 
@@ -89,6 +86,18 @@ else
    echo -e "platon-server:$Green already cloned !$Color_Off"
 fi
 
+# NFS DISK SETTINGS
+if [[ ! -d ../nfs_disk ]]; then
+   mkdir -p ../nfs_disk
+   mkdir -p ../nfs_disk/utils
+   mkdir -p ../nfs_disk/directories
+   mkdir -p ../nfs_disk/static
+   mkdir -p ../nfs_disk/templates
+
+   echo -e "shared:$Green folder created !$Color_Off"
+else
+   echo -e "shared:$Green already exist !$Color_Off"
+fi
 
 echo -e "$Purple\nGenerating files...\n$Color_Off"
 
