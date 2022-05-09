@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:16.15
 
 # https://stackoverflow.com/a/70471892
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
