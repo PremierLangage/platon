@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12.22.1
 
 # Set work directory
 WORKDIR /app
@@ -11,7 +11,7 @@ COPY platon/app/.npmrc /app/.npmrc
 
 # Install dependencies
 RUN npm set unsafe-perm true
-RUN npm ci
+#COPY platon-front/node_modules /app/node_modules
 
 # Copy sources
 COPY platon-front/.vscode /app/.vscode
