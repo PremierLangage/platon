@@ -13,7 +13,7 @@ COPY platon-front/decorate-angular-cli.js /app/decorate-angular-cli.js
 COPY platon/app/.npmrc /app/.npmrc
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Copy sources
 COPY platon-front/ /app/
