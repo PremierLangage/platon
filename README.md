@@ -58,6 +58,11 @@ In order to run PLaTon you'll need the following tools installed
 
 > By default, the docker daemon always runs as the `root` user on a linux system. If you don’t want to preface the docker command with `sudo` [please read this guide](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket).
 
+> You have Docker Compose installed by default with the new Docker Desktop app, to allow it to work with our script you must enable docker-compose to work with Docker Compose V2. (Preferences -> General -> Use Docker Compose V2)docker
+<p align="left">
+    <img src="./images/docker-compose-v2.png" alt="vscode compose V2" width="620px" />
+</p>
+
 > Also if you are using docker for mac, we recommend you to increase the memory size to 4GB in the resources section of the docker dashboard.
 <p align="left">
     <img src="./images/docker-for-mac.png" alt="Docker for mac" width="620px" />
