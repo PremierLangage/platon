@@ -128,8 +128,8 @@ fi
 echo -e ".env:$Green OK !$Color_Off"
 
 
-if ! grep -q "platon.dev" /etc/hosts; then
-sudo -- sh -c "echo \"127.0.0.1  platon.dev\" >> /etc/hosts"
+if ! grep -q "platon.org" /etc/hosts; then
+sudo -- sh -c "echo \"127.0.0.1  platon.org\" >> /etc/hosts"
 fi
 echo -e "/etc/hosts:$Green OK !$Color_Off"
 
@@ -139,35 +139,35 @@ mkdir -p server/dhparam
 
 # https://support.kerioconnect.gfi.com/hc/en-us/articles/360015200119-Adding-Trusted-Root-Certificates-to-the-Server
 
-if [[ ! -f server/certs/platon.dev.crt ]]; then
+if [[ ! -f server/certs/platon.org.crt ]]; then
 echo ""
-# Generate a ssl certificate of 10 years for platon.dev domain
-openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.dev.key -out server/certs/platon.dev.crt <<EOF
+# Generate a ssl certificate of 10 years for platon.org domain
+openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -keyout server/certs/platon.org.key -out server/certs/platon.org.crt <<EOF
 fr
 Ile-de-france
 Champs-sur-marne
 IGM
 PLaTon
-platon.dev
+platon.org
 nobody@nobody.com
 EOF
 
    if [ "$OS" = "Darwin" ]; then
-      security delete-certificate -c "platon.dev"
+      security delete-certificate -c "platon.org"
       echo ""
-      security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain server/certs/platon.dev.crt
+      security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain server/certs/platon.org.crt
       echo ""
    else
-      sudo rm -f /usr/local/share/ca-certificates/platon.dev.crt
+      sudo rm -f /usr/local/share/ca-certificates/platon.org.crt
       sudo update-ca-certificates --fresh
 
-      sudo cp server/certs/platon.dev.crt /usr/local/share/ca-certificates/platon.dev.crt
+      sudo cp server/certs/platon.org.crt /usr/local/share/ca-certificates/platon.org.crt
       sudo update-ca-certificates
    fi
 fi
 
-echo -e "server/certs/platon.dev.key:$Green OK !$Color_Off"
-echo -e "server/certs/platon.dev.crt:$Green OK !$Color_Off"
+echo -e "server/certs/platon.org.key:$Green OK !$Color_Off"
+echo -e "server/certs/platon.org.crt:$Green OK !$Color_Off"
 
 if [[ ! -f server/dhparam/dhparam.pem ]]; then
    openssl dhparam -out server/dhparam/dhparam.pem 2048

@@ -122,9 +122,9 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     > The creation of the images may take some times on the first usage depending on your system setup.
 
 4.
-    Once all services starts, open the browser on `https://platon.dev`
+    Once all services starts, open the browser on `https://platon.org`
 
-    > This will work because `platon.dev` host is added to the `/etc/hosts/` file of your system by the `install.sh` script and a `ssl` certificate is generated under the directory `server/certs` to be used by nginx.
+    > This will work because `platon.org` host is added to the `/etc/hosts/` file of your system by the `install.sh` script and a `ssl` certificate is generated under the directory `server/certs` to be used by nginx.
 
     > You have to wait for all the containers (specialy the `platon_app (app_1)` container that will compile angular components before running it) to be running before opening your browser.
 
@@ -145,7 +145,7 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     Using your keyboard, type `thisisunsafe`. This will add the website to a safe list, where you should not be prompted again.
     Strange steps, but it surely works!
 
-    - On **Safari** for mac, you should add `server/certs/platon.dev.crt` the Keychain app, then approve the `platon.dev` certificate by double click on it.
+    - On **Safari** for mac, you should add `server/certs/platon.org.crt` the Keychain app, then approve the `platon.org` certificate by double click on it.
     <p align="left">
         <img src="./images/keychain.png" alt="Keychain app" width="620px" />
     </p>
@@ -248,7 +248,7 @@ The following table list all the environment variables defined inside the `.env`
 | DEBUG | api | Sets django's [DEBUG](https://docs.djangoproject.com/fr/3.1/ref/settings/#debug) value settings | true |
 | SECRET_KEY | api | Sets django's [SECRET_KEY](https://docs.djangoproject.com/fr/3.1/ref/settings/#std:setting-SECRET_KEY) value settings | true |
 
-| ALLOWED_HOSTS | api | Sets django's [ALLOWED_HOSTS](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) value setting | 127.0.0.1,localhost,platon.dev |
+| ALLOWED_HOSTS | api | Sets django's [ALLOWED_HOSTS](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) value setting | 127.0.0.1,localhost,platon.org |
 | DB_NAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django_platon |
 | DB_USERNAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django |
 | DB_PASSWORD | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) password value setting | django_password |

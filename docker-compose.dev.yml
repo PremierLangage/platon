@@ -83,8 +83,8 @@ services:
     volumes:
       - ./server/nginx.dev.conf:/etc/nginx/nginx.conf
       - ./server/dhparam/dhparam.pem:/etc/nginx/dhparam.pem
-      - ./server/certs/platon.dev.crt:/etc/nginx/ssl/platon.dev.crt
-      - ./server/certs/platon.dev.key:/etc/nginx/ssl/platon.dev.key
+      - ./server/certs/platon.org.crt:/etc/nginx/ssl/platon.org.crt
+      - ./server/certs/platon.org.key:/etc/nginx/ssl/platon.org.key
     networks:
       - platon-network
     links:

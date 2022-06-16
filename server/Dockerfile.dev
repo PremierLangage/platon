@@ -4,8 +4,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY /platon/server/nginx.dev.conf /etc/nginx/nginx.conf
 COPY /platon/server/dhparam/dhparam.pem /etc/nginx/dhparam.pem
-COPY /platon/server/certs/platon.dev.crt /etc/nginx/ssl/platon.dev.crt
-COPY /platon/server/certs/platon.dev.key /etc/nginx/ssl/platon.dev.key
+COPY /platon/server/certs/platon.org.crt /etc/nginx/ssl/platon.org.crt
+COPY /platon/server/certs/platon.org.key /etc/nginx/ssl/platon.org.key
 
 # Forward nginx logs to docker
 # https://alexanderallen.medium.com/forwarding-nginx-logs-to-docker-3bb6283a207
