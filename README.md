@@ -125,6 +125,7 @@ You are free to develop on the OS of your choice, it's does not matter thanks to
     cd ../platon-front/
     npm install
     ```
+    > A 3 minutes download depending on your net-access.
 
 4.
     Generate docker images of PLaTon services and run containers.
