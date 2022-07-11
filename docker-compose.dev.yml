@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   redis:
@@ -33,18 +33,20 @@ services:
     image: platon/api
     container_name: platon_api
     command: sh -c "python3 manage.py waitdb &&
-                    python3 manage.py makemigrations &&
-                    python3 manage.py migrate &&
-                    python3 manage.py createdefaults &&
-                    python3 manage.py runserver 0.0.0.0:8000"
+      python3 manage.py makemigrations &&
+      python3 manage.py migrate &&
+      python3 manage.py createdefaults &&
+      python3 manage.py runserver 0.0.0.0:8000"
     ports:
       - 8000
     volumes:
       - ../platon-server/:/api
+      - ../nfs_disk/:/api/shared
+      #- ../sandbox/directories:/api/directories
     networks:
       - platon-network
     environment:
-      - 'SANDBOX_URL=http://$SANDBOX_HOST:$SANDBOX_PORT'
+      - "SANDBOX_URL=http://$SANDBOX_HOST:$SANDBOX_PORT"
     env_file:
       - .env
     depends_on:
@@ -59,7 +61,7 @@ services:
       dockerfile: platon/app/Dockerfile
     image: platon/app
     container_name: platon_app
-    command: npm start -- --host 0.0.0.0 --disable-host-check 
+    command: npm start -- --host 0.0.0.0 --disable-host-check
     ports:
       - 4200
     volumes:
@@ -121,7 +123,6 @@ services:
   #     - ES_JAVA_OPTS=-Xms750m -Xmx750m
   #   networks:
   #     - platon-network
-
 
 volumes:
   redisdata:

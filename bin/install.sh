@@ -55,7 +55,7 @@ echo -e "$Purple\nChecking repositories...\n$Color_Off"
 
 # SANDBOX
 if [[ ! -d ../sandbox ]]; then
-   git clone https://github.com/PremierLangage/sandbox ../sandbox
+   git clone -b develop https://github.com/PremierLangage/sandbox ../sandbox
    echo -e "sandbox:$Green cloned !\n$Color_Off"
 else
    echo -e "sandbox:$Green already cloned !\n$Color_Off"
@@ -63,7 +63,10 @@ fi
 
 # PLATON-FRONT
 if [[ ! -d ../platon-front ]]; then
-   git clone https://github.com/PremierLangage/platon-front ../platon-front
+   git clone -b develop https://github.com/PremierLangage/platon-front ../platon-front
+   cd ../platon-front
+   npm ci
+   cd ../platon
    echo -e "platon-front:$Green cloned !$Color_Off"
 else
    echo -e "platon-front:$Green already cloned !$Color_Off"
@@ -71,24 +74,28 @@ fi
 
 # PLATON_SERVER
 if [[ ! -d ../platon-server ]]; then
-   git clone https://github.com/PremierLangage/platon-server ../platon-server
-
+   git clone -b develop https://github.com/PremierLangage/platon-server ../platon-server
    mkdir -p ../platon-server/media
    mkdir -p ../platon-server/static
-   mkdir -p ../platon-server/shared
-   mkdir -p ../platon-server/directories
-   mkdir -p ../platon-server/shared/static
-   mkdir -p ../platon-server/shared/templates
-
    touch ../platon-server/platon/config.py
-
    cp config.json ../platon-server/platon/config.json
-
    echo -e "platon-server:$Green cloned !$Color_Off"
 else
    echo -e "platon-server:$Green already cloned !$Color_Off"
 fi
 
+# NFS DISK SETTINGS
+if [[ ! -d ../nfs_disk ]]; then
+   mkdir -p ../nfs_disk
+   mkdir -p ../nfs_disk/utils
+   mkdir -p ../nfs_disk/directories
+   mkdir -p ../nfs_disk/static
+   mkdir -p ../nfs_disk/templates
+
+   echo -e "shared:$Green folder created !$Color_Off"
+else
+   echo -e "shared:$Green already exist !$Color_Off"
+fi
 
 echo -e "$Purple\nGenerating files...\n$Color_Off"
 

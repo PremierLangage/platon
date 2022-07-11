@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.9
 
 # Set environment variables
 # Prevents Python from writing pyc files to disc
