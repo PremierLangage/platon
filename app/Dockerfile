@@ -24,4 +24,3 @@ COPY platon-front/karma.conf.js /app/karma.conf.js
 COPY platon-front/nx.json /app/nx.json
 COPY platon-front/tsconfig.base.json /app/tsconfig.base.json
 COPY platon-front/tslint.json /app/tslint.json
-#COPY platon-front/webpack.externals.js /app/webpack.externals.js
