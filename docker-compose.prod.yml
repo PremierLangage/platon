@@ -75,8 +75,8 @@ services:
       - 443:443
     volumes:
       # DJANGO
-      - media:/api/media
-      - static:/api/static
+      - media:/usr/share/nginx/media
+      - static:/usr/share/nginx/static
 
       # NGINX CONF
       - ./server/nginx.prod.conf:/etc/nginx/nginx.conf
