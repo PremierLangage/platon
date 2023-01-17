@@ -65,7 +65,7 @@ fi
 if [[ ! -d ../platon-front ]]; then
    git clone -b develop https://github.com/PremierLangage/platon-front ../platon-front
    cd ../platon-front
-   npm ci
+   npm ci --legacy-peer-deps
    cd ../platon
    echo -e "platon-front:$Green cloned !$Color_Off"
 else
