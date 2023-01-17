@@ -11,7 +11,7 @@ COPY platon/app/.npmrc /app/.npmrc
 
 # Install dependencies
 RUN npm set unsafe-perm true
-RUN npm ci
+RUN npm ci --leagacy-peer-deps
 
 # Copy sources
 COPY platon-front/.vscode /app/.vscode
