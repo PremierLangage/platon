@@ -18,7 +18,7 @@ RUN pip3 install -r requirements.txt
 # Copy sources
 ADD platon-server/apps /api/apps
 ADD platon-server/platon /api/platon
-ADD platon-server/shared /api/shared
+#ADD platon-server/shared /api/shared
 ADD platon-server/manage.py /api/manage.py
 
 # Setup celery log dir
