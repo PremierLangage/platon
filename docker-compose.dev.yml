@@ -54,20 +54,20 @@ services:
       - postgres
     # - elasticsearch
 
-  app:
-    restart: on-failure
-    build:
-      context: ../
-      dockerfile: platon/app/Dockerfile
-    image: platon/app
-    container_name: platon_app
-    command: npm start -- --host 0.0.0.0 --disable-host-check
-    ports:
-      - 4200
-    volumes:
-      - ../platon-front/:/app
-    networks:
-      - platon-network
+  # app:
+  #   restart: on-failure
+  #   build:
+  #     context: ../
+  #     dockerfile: platon/app/Dockerfile
+  #   image: platon/app
+  #   container_name: platon_app
+  #   command: npm start -- --host 0.0.0.0 --disable-host-check
+  #   ports:
+  #     - 4200
+  #   volumes:
+  #     - ../platon-front/:/app
+  #   networks:
+  #     - platon-network
 
   server:
     restart: on-failure
@@ -86,9 +86,11 @@ services:
       - ./server/certs/platon.dev.key:/etc/nginx/ssl/platon.dev.key
     networks:
       - platon-network
+    extra_hosts:
+      - app:0.0.0.0
     links:
       - api:api
-      - app:app
+      # - app:app
     depends_on:
       - api
       - app
