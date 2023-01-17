@@ -87,13 +87,14 @@ services:
     networks:
       - platon-network
     extra_hosts:
-      - app:0.0.0.0
+      # - host.docker.internal:host-gateway
+      - app:host-gateway
     links:
       - api:api
       # - app:app
     depends_on:
       - api
-      - app
+      # - app
 
   # celery:
   #   restart: on-failure
