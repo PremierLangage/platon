@@ -55,7 +55,7 @@ echo -e "$Purple\nChecking repositories...\n$Color_Off"
 
 # SANDBOX
 if [[ ! -d ../sandbox ]]; then
-   git clone -b develop https://github.com/PremierLangage/sandbox ../sandbox
+   git clone https://github.com/PremierLangage/sandbox ../sandbox
    echo -e "sandbox:$Green cloned !\n$Color_Off"
 else
    echo -e "sandbox:$Green already cloned !\n$Color_Off"
@@ -63,10 +63,7 @@ fi
 
 # PLATON-FRONT
 if [[ ! -d ../platon-front ]]; then
-   git clone -b develop https://github.com/PremierLangage/platon-front ../platon-front
-   cd ../platon-front
-   npm ci
-   cd ../platon
+   git clone https://github.com/PremierLangage/platon-front ../platon-front
    echo -e "platon-front:$Green cloned !$Color_Off"
 else
    echo -e "platon-front:$Green already cloned !$Color_Off"
@@ -74,7 +71,7 @@ fi
 
 # PLATON_SERVER
 if [[ ! -d ../platon-server ]]; then
-   git clone -b develop https://github.com/PremierLangage/platon-server ../platon-server
+   git clone https://github.com/PremierLangage/platon-server ../platon-server
    mkdir -p ../platon-server/media
    mkdir -p ../platon-server/static
    touch ../platon-server/platon/config.py
