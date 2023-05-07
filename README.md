@@ -263,7 +263,6 @@ The following table list all the environment variables defined inside the `.env`
 | PG_DATA | postgres | Directory where to store the data inside the postgres service. | PG_DATA=/var/lib/postgresql/data |
 | DEBUG | api | Sets django's [DEBUG](https://docs.djangoproject.com/fr/3.1/ref/settings/#debug) value settings | true |
 | SECRET_KEY | api | Sets django's [SECRET_KEY](https://docs.djangoproject.com/fr/3.1/ref/settings/#std:setting-SECRET_KEY) value settings | true |
-
 | ALLOWED_HOSTS | api | Sets django's [ALLOWED_HOSTS](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) value setting | 127.0.0.1,localhost,platon.dev |
 | DB_NAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django_platon |
 | DB_USERNAME | api | Sets django's [DATABASES](https://docs.djangoproject.com/fr/3.1/ref/settings/#allowed-hosts) name value setting | django |
